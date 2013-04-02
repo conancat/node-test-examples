@@ -27,11 +27,14 @@ task 'docs', 'Create documentation using Docco', ->
   output = "./"
 
   docco = exec [
+    "git checkout gh-pages"
+    "git merge master"
     "docco -l #{layout} -o #{output} readme.md"
     "docco -l #{layout} -o #{output} src/*.coffee"
     "docco -l #{layout} -o #{output} src/lib/*.coffee"
     "docco -l #{layout} -o #{output} src/test/*.coffee"
     "mv readme.html index.html"
+    "git checkout master"
   ].join("&&")
   
   printOutput(docco)
