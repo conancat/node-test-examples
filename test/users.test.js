@@ -45,13 +45,23 @@
         return done();
       });
     });
-    return it("should return null if no users are found", function(done) {
+    it("should return null if no users are found", function(done) {
       var data;
       data = {
         name: "Weird ass name"
       };
       return getUser(data, function(err, result) {
         expect(result).to.be["null"];
+        return done();
+      });
+    });
+    return it("should return error if no name is specified", function(done) {
+      var data;
+      data = {
+        age: 10
+      };
+      return getUser(data, function(err, result) {
+        expect(err).to.be.equal("Name is required");
         return done();
       });
     });
@@ -111,6 +121,10 @@
         return done();
       });
     });
+  });
+
+  after(function(done) {
+    return testHelpers.clearDatabase(done);
   });
 
 }).call(this);

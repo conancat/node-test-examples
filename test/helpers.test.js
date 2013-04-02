@@ -26,13 +26,14 @@
       val = validateAge("10 years old");
       return expect(val).to.be["false"];
     });
-    return it("should run 10000 iterations successfully", function(done) {
-      var i, val, _i;
+    return it("should run 10000 iterations successfully", function() {
+      var i, val, _i, _results;
+      _results = [];
       for (i = _i = 0; _i < 10000; i = ++_i) {
         val = validateAge(10);
-        expect(val).to.be["true"];
+        _results.push(expect(val).to.be["true"]);
       }
-      return done();
+      return _results;
     });
   });
 

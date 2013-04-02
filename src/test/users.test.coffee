@@ -1,24 +1,57 @@
-# IMPORTANT: Set environment as testing
+# ## Setting up
+
+# *IMPORTANT*: Set your environment as testing, and have environment specific 
+# configurations. You DON'T want to mess with your production database while
+# you're working on testing! To see how we setup environment specific configurations, 
+# check out our [configuration file](http://node-test-examples.github.com/conf.html).
+
 process.env.NODE_ENV = "testing"
 
-# Require chai
+# Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
 {expect} = require "chai"
 
-# Some test helpers
+# Some test helper functions that we will use for setting up server, cleaning up database etc. 
 testHelpers = require "./testHelpers"
 
-# Require lib module
+# Require the main module that we will be using
 users = require "../lib/users"
 
-# Require the database model
+# Require the database model so that we can make calls from our test to the database
+# to make sure things are being properly created
 {User} = require "../lib/models"
 
+# ## Begin Test
 
-# Clear the database before doing any operations
+# Note: You'll notice that there are some `done` calls being called here. This is a cool 
+# thing about Mocha -- for every test that you write, you can use the `done` call to specify
+# that it is an asynchronous code, and will only be completed after you call the `done` function. 
+# If no `done` is passed, then it will assume that it's a synchronous test. 
+#
+# For more info, check out Mocha's [documentation](http://visionmedia.github.com/mocha/). 
+
+
+# Before we begin... 
+#
+# * Clear the database before doing any operations, so that we will not 
+# be affected by any old data. 
+
 before (done) ->
   testHelpers.clearDatabase done
 
-# Test get users function
+# Let's begin the party!
+# 
+
+# ### getUser()
+# First, we need to populate 
+# the database with some mock users. These input are defined in the 
+# `mocks/users.json` file which we will require and insert them into the database. 
+# Then we can safely test the getUser function if it's working or not. 
+# 
+# After we're done testing with a perfect input and getting the results that 
+# we want, we will test the behaviors of validation as well to see if 
+# bad inputs are throwing errors as we will expect them to be. We don't want 
+# bad data to go into the database, they will cause trouble later! 
+
 describe "Database test example: Getting data from db", ->
   {getUser} = users
 
@@ -27,7 +60,8 @@ describe "Database test example: Getting data from db", ->
     mockUsers = require "./mocks/users"
     User.create mockUsers, done
 
-  # Begin test cases
+  # Let's test with a normal call, using the name as the argument. 
+
   it "should get the user by supplying the name in input", (done) ->
 
     data = 
@@ -36,6 +70,9 @@ describe "Database test example: Getting data from db", ->
     getUser data, (err, result) ->
       expect(result.name).to.be.equal("Caesar")
       done()
+
+  # After that, let's test with the required argument, and an optional argument
+  # and see if it is returning the result that we expected. 
 
   it "should return user that has age specified if specified", (done) ->
     data = 
@@ -46,6 +83,9 @@ describe "Database test example: Getting data from db", ->
       expect(result.food).to.be.equal("salad")
       done()
 
+  # The function works perfectly! Now we need to see if we give it some weird input
+  # and if it returns the results we wanted. 
+
   it "should return null if no users are found", (done) ->
     data = 
       name: "Weird ass name"
@@ -54,12 +94,32 @@ describe "Database test example: Getting data from db", ->
       expect(result).to.be.null
       done()
 
-# Create or update user
+  it "should return error if no name is specified", (done) ->
+    data = 
+      age: 10
+
+    getUser data, (err, result) ->
+      expect(err).to.be.equal("Name is required")
+      done()
+
+# ### createOrUpdateUser()
+
+# For this function, we don't have to 
+# create mocks in the database. Instead we call the function directly, 
+# check if it returns no error, and we will make a call from the test 
+# file to the database and see if the entry is being inserted correctly. 
+# 
+# We will also make some bad calls to the function on purpose just to see
+# if the validations are working correctly when we call the function, 
+# so that no jackasses will pass in some weird input and it screws up 
+# our database entries. We don't like screwed up databases, do we? 
+
 describe "Database test example: Creating or updating data in db", ->
 
   {createOrUpdateUser} = users
 
   # The perfect scenario!
+  
   it "should create user successfully given a perfect input", (done) ->
 
     data = 
@@ -71,6 +131,9 @@ describe "Database test example: Creating or updating data in db", ->
 
       # Err should be null, yeah
       expect(err).to.be.null
+
+      # Lets make a call to the database to make sure that it is being saved in the 
+      # database.
 
       User.findOne name: data.name, (err, result) ->
         expect(result).to.be.an("object")
@@ -106,7 +169,12 @@ describe "Database test example: Creating or updating data in db", ->
       done()
 
 
+# After we're done...
+#
+# Clear the database again. We're being clean, you know?
 
+after (done) ->
+  testHelpers.clearDatabase done
 
 
 

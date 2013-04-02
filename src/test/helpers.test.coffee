@@ -1,19 +1,31 @@
-# IMPORTANT: Set environment as testing
+# ## Setting up
+
+# *IMPORTANT*: Set your environment as testing, and have environment specific 
+# configurations. You DON'T want to mess with your production database while
+# you're working on testing! To see how we setup environment specific configurations, 
+# check out our [configuration file](http://node-test-examples.github.com/conf.html).
+
 process.env.NODE_ENV = "testing"
 
-# Use Chai's expect for assertion
+# Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
 {expect} = require "chai"
 
 # Require the module
 helpers = require "../lib/helpers"
 
-# Describe the test 
+
+# ## Begin Test
+
+# First we create a group of tests, let's start by describing the test
 describe "Module testing example: Input validation", ->
 
-  # Import the function
+  # Just a quick reference to the function we're testing
   {validateAge} = helpers
 
-  # Run the test cases
+  # These tests are straight forward true or false tests that we want
+  # to run against our function. We want the result being returned 
+  # from the function works exactly like how we want it to be.
+
   it "should return true if valid age is given", ->
     val = validateAge(10)
     expect(val).to.be.true
@@ -26,9 +38,13 @@ describe "Module testing example: Input validation", ->
     val = validateAge("10 years old")
     expect(val).to.be.false
 
-  it "should run 10000 iterations successfully", (done) ->
+  # In some cases we want to see how well this function is performing. 
+  # Yeah, unit tests, baby! Let's run the function 10000 times and see
+  # how much times it takes for it to perform. This is good for benchmarking
+  # and optimising your code. But most of the time, as a first step, get the functions 
+  # right first. 
+
+  it "should run 10000 iterations successfully", ->
     for i in [0...10000]
       val = validateAge(10)
       expect(val).to.be.true
-
-    done()
