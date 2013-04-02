@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>users.test.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>users.test.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="api.test.html">
+                    api.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="browser.test.html">
+                    browser.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.test.html">
+                    helpers.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="testHelpers.html">
+                    testHelpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.test.html">
+                    users.test.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>IMPORTANT: Set environment as testing</p>
+
+        
+          <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
+        
+      
+        
+        <p>Require chai</p>
+
+        
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+        
+      
+        
+        <p>Some test helpers</p>
+
+        
+          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
+        
+      
+        
+        <p>Require lib module</p>
+
+        
+          <div class='highlight'><pre>users = require <span class="string">"../lib/users"</span></pre></div>
+        
+      
+        
+        <p>Require the database model</p>
+
+        
+          <div class='highlight'><pre>{User} = require <span class="string">"../lib/models"</span></pre></div>
+        
+      
+        
+        <p>Clear the database before doing any operations</p>
+
+        
+          <div class='highlight'><pre>before (done) -&gt;
+  testHelpers.clearDatabase done</pre></div>
+        
+      
+        
+        <p>Test get users function</p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"Database test example: Getting data from db"</span>, -&gt;
+  {getUser} = users</pre></div>
+        
+      
+        
+        <p>Create mock items in database first</p>
+
+        
+          <div class='highlight'><pre>  before (done) -&gt;
+    mockUsers = require <span class="string">"./mocks/users"</span>
+    User.create mockUsers, done</pre></div>
+        
+      
+        
+        <p>Begin test cases</p>
+
+        
+          <div class='highlight'><pre>  it <span class="string">"should get the user by supplying the name in input"</span>, (done) -&gt;
+
+    data = 
+      name: <span class="string">"Caesar"</span>
+
+    getUser data, (err, result) -&gt;
+      expect(result.name).to.be.equal(<span class="string">"Caesar"</span>)
+      done()
+
+  it <span class="string">"should return user that has age specified if specified"</span>, (done) -&gt;
+    data = 
+      name: <span class="string">"Caesar"</span>
+      age: <span class="number">15</span>
+
+    getUser data, (err, result) -&gt;
+      expect(result.food).to.be.equal(<span class="string">"salad"</span>)
+      done()
+
+  it <span class="string">"should return null if no users are found"</span>, (done) -&gt;
+    data = 
+      name: <span class="string">"Weird ass name"</span>
+
+    getUser data, (err, result) -&gt;
+      expect(result).to.be.<span class="literal">null</span>
+      done()</pre></div>
+        
+      
+        
+        <p>Create or update user</p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"Database test example: Creating or updating data in db"</span>, -&gt;
+
+  {createOrUpdateUser} = users</pre></div>
+        
+      
+        
+        <p>The perfect scenario!</p>
+
+        
+          <div class='highlight'><pre>  it <span class="string">"should create user successfully given a perfect input"</span>, (done) -&gt;
+
+    data = 
+      name: <span class="string">"Grey"</span>
+      age: <span class="number">10</span>
+      food: <span class="string">"banana"</span>
+
+    createOrUpdateUser data, (err) -&gt;</pre></div>
+        
+      
+        
+        <p>Err should be null, yeah</p>
+
+        
+          <div class='highlight'><pre>      expect(err).to.be.<span class="literal">null</span>
+
+      User.findOne name: data.name, (err, result) -&gt;
+        expect(result).to.be.an(<span class="string">"object"</span>)
+        done()</pre></div>
+        
+      
+        
+        <p>Test validations</p>
+
+        
+          <div class='highlight'><pre>  it <span class="string">"should throw error if missing name in input"</span>, (done) -&gt;
+    data = 
+      age: <span class="number">10</span>
+      food: <span class="string">"banana"</span>
+
+    createOrUpdateUser data, (err) -&gt;
+      expect(err).to.be.equal(<span class="string">"Name is required"</span>)
+      done()
+
+  it <span class="string">"should throw error if missing age in input"</span>, (done) -&gt;
+    data = 
+      name: <span class="string">"Grey"</span>
+      food: <span class="string">"banana"</span>
+
+    createOrUpdateUser data, (err) -&gt;
+      expect(err).to.be.equal(<span class="string">"Age is required"</span>)
+      done()
+
+  it <span class="string">"should throw error if age is not a number"</span>, (done) -&gt;
+    data = 
+      name: <span class="string">"Grey"</span>
+      age: <span class="string">"donkey"</span>
+      food: <span class="string">"banana"</span>
+
+    createOrUpdateUser data, (err) -&gt;
+      expect(err).to.be.equal(<span class="string">"Age must be a number"</span>)
+      done()</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

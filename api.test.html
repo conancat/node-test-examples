@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>api.test.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>api.test.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="api.test.html">
+                    api.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="browser.test.html">
+                    browser.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.test.html">
+                    helpers.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="testHelpers.html">
+                    testHelpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.test.html">
+                    users.test.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>IMPORTANT: Set environment as testing</p>
+
+        
+          <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
+        
+      
+        
+        <p>Use Chai&#39;s expect for assertion</p>
+
+        
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+        
+      
+        
+        <p>some test helper functions</p>
+
+        
+          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
+        
+      
+        
+        <p>use Request for API testing</p>
+
+        
+          <div class='highlight'><pre>request = require <span class="string">"request"</span></pre></div>
+        
+      
+        
+        <p>some variables</p>
+
+        
+          <div class='highlight'><pre>serverPath = <span class="string">""</span></pre></div>
+        
+      
+        
+        <p>Clear database and start server before testing</p>
+
+        
+          <div class='highlight'><pre>before (done) -&gt;
+  <span class="property">@timeout</span> <span class="number">10000</span>
+
+  testHelpers.clearDatabase -&gt;
+    testHelpers.startServer (err, result) -&gt;
+      <span class="keyword">if</span> err <span class="keyword">then</span> <span class="keyword">return</span> done err
+      serverPath = result
+      done()</pre></div>
+        
+      
+        
+        <p>Start testing the /submit route</p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"API test example: POST /submit"</span>, -&gt;</pre></div>
+        
+      
+        
+        <p>Test with a perfect input</p>
+
+        
+          <div class='highlight'><pre>  describe <span class="string">"Perfect input"</span>, -&gt;
+    response = {}
+
+    before (done) -&gt;
+      endpoint = serverPath + <span class="string">"/submit"</span>
+
+      request.post endpoint,
+        headers:
+          <span class="string">"X-Requested-With"</span>: <span class="string">"XMLHttpRequest"</span>
+        json: <span class="literal">true</span>
+        form:
+          name: <span class="string">"Caesar"</span>
+          age: <span class="number">13</span>
+          food: <span class="string">"sandwich"</span>
+      , (err, res, body) -&gt;
+        response = body
+        done()
+
+    it <span class="string">"should return a JSON object"</span>, -&gt;
+      expect(response).to.be.an(<span class="string">"object"</span>)
+
+    it <span class="string">"should contain the meta data"</span>, -&gt;
+      expect(response.meta).to.be.an(<span class="string">"object"</span>)
+
+    it <span class="string">"should return status of 200"</span>, -&gt;
+      expect(response.meta.status).to.be.equal(<span class="number">200</span>)
+
+    it <span class="string">"should return 'ok' message"</span>, -&gt;
+      expect(response.meta.msg).to.be.equal(<span class="string">"ok"</span>)</pre></div>
+        
+      
+        
+        <p>Test with a faulty input</p>
+
+        
+          <div class='highlight'><pre>  describe <span class="string">"Error input"</span>, -&gt;
+    response = {}
+
+    before (done) -&gt;
+      endpoint = serverPath + <span class="string">"/submit"</span>
+
+      request.post endpoint,
+        headers:
+          <span class="string">"X-Requested-With"</span>: <span class="string">"XMLHttpRequest"</span>
+        json: <span class="literal">true</span>
+        form:
+          name: <span class="string">"Caesar"</span>
+          age: <span class="string">"donkey"</span> <span class="comment"># AGE IS WRONG! </span>
+          food: <span class="string">"sandwich"</span>
+      , (err, res, body) -&gt;
+        response = body
+        done()
+
+    it <span class="string">"should return a JSON object"</span>, -&gt;
+      expect(response).to.be.an(<span class="string">"object"</span>)
+
+    it <span class="string">"should contain the meta data"</span>, -&gt;
+      expect(response.meta).to.be.an(<span class="string">"object"</span>)
+
+    it <span class="string">"should return status of 403"</span>, -&gt;
+      expect(response.meta.status).to.be.equal(<span class="number">400</span>)
+
+    it <span class="string">"should return error message saying 'Age must be a number'"</span>, -&gt;
+      expect(response.meta.msg).to.be.equal(<span class="string">"Age must be a number"</span>)</pre></div>
+        
+      
+        
+        <p>Kill the server after done</p>
+
+        
+          <div class='highlight'><pre>after (done) -&gt;
+  testHelpers.clearDatabase -&gt;
+    testHelpers.stopServer serverPath, -&gt;
+      done()</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

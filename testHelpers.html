@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>testHelpers.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>testHelpers.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="api.test.html">
+                    api.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="browser.test.html">
+                    browser.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.test.html">
+                    helpers.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="testHelpers.html">
+                    testHelpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.test.html">
+                    users.test.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>Some system modules</p>
+
+        
+          <div class='highlight'><pre>path = require <span class="string">"path"</span>
+child_process = require <span class="string">"child_process"</span></pre></div>
+        
+      
+        
+        <p>Get the models to clear database</p>
+
+        
+          <div class='highlight'><pre>models = require <span class="string">"../lib/models"</span></pre></div>
+        
+      
+        
+        <p>Some variables</p>
+
+        
+          <div class='highlight'><pre>servers = {}</pre></div>
+        
+      
+        
+        <p>Creates the server, returns the server as the result</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="title">startServer</span></span> = (callback) -&gt;</pre></div>
+        
+      
+        
+        <p>Randomly generate a port</p>
+
+        
+          <div class='highlight'><pre>  process.env.PORT = Math.max(<span class="number">1000</span>, <span class="number">10000</span> - Math.round(Math.random() * <span class="number">10000</span>))</pre></div>
+        
+      
+        
+        <p>Server path</p>
+
+        
+          <div class='highlight'><pre>  filepath = path.resolve path.dirname(module.filename), <span class="string">"../app"</span></pre></div>
+        
+      
+        
+        <p>Spawn the server process</p>
+
+        
+          <div class='highlight'><pre>  server = child_process.spawn <span class="string">"node"</span>, [filepath]</pre></div>
+        
+      
+        
+        <p>log output data</p>
+
+        
+          <div class='highlight'><pre>  server.stdout.<span class="literal">on</span> <span class="string">"data"</span>, (data) -&gt;
+    str = data.toString()</pre></div>
+        
+      
+        
+        <p>If server is started, consider the setup as done</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">if</span> <span class="regexp">/listening on/</span>.test(str) 
+      serverPath = str.split(<span class="string">" "</span>).pop().trim()</pre></div>
+        
+      
+        
+        <p>Cache the server in the list of servers started</p>
+
+        
+          <div class='highlight'><pre>      servers[serverPath] = server
+
+      callback <span class="literal">null</span>, serverPath</pre></div>
+        
+      
+        
+        <p>Log error data</p>
+
+        
+          <div class='highlight'><pre>  server.stderr.<span class="literal">on</span> <span class="string">"data"</span>, (data) -&gt;
+
+    str = data.toString()
+
+    console.error str
+
+    callback str</pre></div>
+        
+      
+        
+        <p>Kill the server</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="title">stopServer</span></span> = (serverPath, callback) -&gt;
+
+  <span class="keyword">if</span> servers[serverPath]
+    server = servers[serverPath]
+    server.<span class="literal">on</span> <span class="string">'exit'</span>, -&gt;
+      callback <span class="literal">null</span>
+
+    server.kill()
+
+  <span class="keyword">else</span>
+    callback <span class="literal">null</span></pre></div>
+        
+      
+        
+        <p>Clear the database</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="title">clearDatabase</span></span> = (callback) -&gt;
+  i = <span class="number">0</span>
+  dbs = []</pre></div>
+        
+      
+        
+        <p>Get a list of dbs</p>
+
+        
+          <div class='highlight'><pre>  <span class="keyword">for</span> key, val <span class="keyword">of</span> models
+    dbs.push val</pre></div>
+        
+      
+        
+        <p>Clear the databases</p>
+
+        
+          <div class='highlight'><pre>  <span class="function"><span class="title">clear</span></span> = -&gt;
+    <span class="keyword">if</span> <span class="keyword">not</span> dbs[i] <span class="keyword">then</span> <span class="keyword">return</span> callback <span class="literal">null</span>
+
+    dbs[i].remove (err) -&gt;
+      <span class="keyword">if</span> err <span class="keyword">then</span> console.error err
+      i++
+      clear()
+
+  clear()
+
+module.exports = 
+  startServer: startServer
+  stopServer: stopServer
+  clearDatabase: clearDatabase</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>users.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>users.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="conf.html">
+                    conf.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.html">
+                    helpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="models.html">
+                    models.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.html">
+                    users.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>Get the schema</p>
+
+        
+          <div class='highlight'><pre>{User} = require <span class="string">"./models"</span>
+{validateAge} = require <span class="string">"./helpers"</span>
+
+<span class="function"><span class="title">getUser</span></span> = (data, callback) -&gt;
+  <span class="keyword">if</span> <span class="keyword">not</span> data.name 
+    <span class="keyword">return</span> callback <span class="string">"Name required"</span>
+
+  query = User.findOne {}
+
+  query.where <span class="string">"name"</span>, data.name
+  
+  <span class="keyword">if</span> data.age
+    query.where <span class="string">"age"</span>, data.age
+
+  query.exec callback
+
+<span class="function"><span class="title">createOrUpdateUser</span></span> = (data, callback) -&gt;</pre></div>
+        
+      
+        
+        <p>Validate input</p>
+
+        
+          <div class='highlight'><pre>  <span class="keyword">if</span> <span class="keyword">not</span> data.name
+    <span class="keyword">return</span> callback <span class="string">"Name is required"</span>
+
+  <span class="keyword">if</span> <span class="keyword">not</span> data.age
+    <span class="keyword">return</span> callback <span class="string">"Age is required"</span>
+
+  <span class="keyword">if</span> <span class="keyword">not</span> validateAge(data.age)
+    <span class="keyword">return</span> callback <span class="string">"Age must be a number"</span></pre></div>
+        
+      
+        
+        <p>Create or update the user</p>
+
+        
+          <div class='highlight'><pre>  User.update
+    name: data.name
+    age: data.age
+  , 
+    name: data.name
+    age: data.age
+    food: data.food
+  , 
+    upsert: <span class="literal">true</span>
+  , 
+    callback</pre></div>
+        
+      
+        
+        <p>Export the functions</p>
+
+        
+          <div class='highlight'><pre>module.exports = 
+  getUser: getUser
+  createOrUpdateUser: createOrUpdateUser</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

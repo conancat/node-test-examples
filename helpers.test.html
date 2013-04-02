@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>helpers.test.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>helpers.test.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="api.test.html">
+                    api.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="browser.test.html">
+                    browser.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.test.html">
+                    helpers.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="testHelpers.html">
+                    testHelpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.test.html">
+                    users.test.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>IMPORTANT: Set environment as testing</p>
+
+        
+          <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
+        
+      
+        
+        <p>Use Chai&#39;s expect for assertion</p>
+
+        
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+        
+      
+        
+        <p>Require the module</p>
+
+        
+          <div class='highlight'><pre>helpers = require <span class="string">"../lib/helpers"</span></pre></div>
+        
+      
+        
+        <p>Describe the test </p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"Module testing example: Input validation"</span>, -&gt;</pre></div>
+        
+      
+        
+        <p>Import the function</p>
+
+        
+          <div class='highlight'><pre>  {validateAge} = helpers</pre></div>
+        
+      
+        
+        <p>Run the test cases</p>
+
+        
+          <div class='highlight'><pre>  it <span class="string">"should return true if valid age is given"</span>, -&gt;
+    val = validateAge(<span class="number">10</span>)
+    expect(val).to.be.<span class="literal">true</span>
+
+  it <span class="string">"should return false if given a pure string"</span>, -&gt;
+    val = validateAge(<span class="string">"donkey"</span>)
+    expect(val).to.be.<span class="literal">false</span>
+
+  it <span class="string">"should return false if given a number + string combination"</span>, -&gt;
+    val = validateAge(<span class="string">"10 years old"</span>)
+    expect(val).to.be.<span class="literal">false</span>
+
+  it <span class="string">"should run 10000 iterations successfully"</span>, (done) -&gt;
+    <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">0.</span>.<span class="number">.10000</span>]
+      val = validateAge(<span class="number">10</span>)
+      expect(val).to.be.<span class="literal">true</span>
+
+    done()</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

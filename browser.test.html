@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>browser.test.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>browser.test.coffee</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="api.test.html">
+                    api.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="browser.test.html">
+                    browser.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.test.html">
+                    helpers.test.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="testHelpers.html">
+                    testHelpers.coffee
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="users.test.html">
+                    users.test.coffee
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>IMPORTANT: Set environment as testing</p>
+
+        
+          <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
+        
+      
+        
+        <p>Use Chai&#39;s expect for assertion</p>
+
+        
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+        
+      
+        
+        <p>some test helper functions</p>
+
+        
+          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
+        
+      
+        
+        <p>use Phantom for API testing</p>
+
+        
+          <div class='highlight'><pre>phantom = require <span class="string">"phantom"</span></pre></div>
+        
+      
+        
+        <p>some variables</p>
+
+        
+          <div class='highlight'><pre>server = {} <span class="comment"># One server instance</span>
+ph = {} <span class="comment"># One PhantomJS instance</span></pre></div>
+        
+      
+        
+        <p>Store the server path returned from starting a server instance</p>
+
+        
+          <div class='highlight'><pre>serverPath = <span class="string">""</span></pre></div>
+        
+      
+        
+        <p>SETUP
+Start server before testing</p>
+
+        
+          <div class='highlight'><pre>before (done) -&gt;
+  <span class="property">@timeout</span> <span class="number">10000</span>
+
+  testHelpers.startServer (err, result) -&gt;
+    <span class="keyword">if</span> err <span class="keyword">then</span> <span class="keyword">return</span> done err
+
+    serverPath = result</pre></div>
+        
+      
+        
+        <p>Create the phantomJS instance</p>
+
+        
+          <div class='highlight'><pre>    phantom.create (phantomInstance) -&gt;
+      ph = phantomInstance
+      done()</pre></div>
+        
+      
+        
+        <p>BEGIN TEST
+Start a browser session with a perfect input</p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"Headless Browser test example: Open homepage"</span>, -&gt;
+
+  page = {}
+
+  before (done) -&gt;
+    ph.createPage (p) -&gt;
+      p.open serverPath, (status) -&gt;
+        page = p
+        done()
+
+  it <span class="string">"should be able to open page successfully with correct page title"</span>, (done) -&gt;
+    page.evaluate (-&gt; document.title), (result) -&gt;
+      expect(result).to.be.equal(<span class="string">"Hello there!"</span>)
+      done()
+
+  it <span class="string">"should contain 3 input boxes"</span>, (done) -&gt;
+    page.evaluate -&gt; 
+      inputs = document.querySelectorAll(<span class="string">"input[type=text]"</span>)
+      <span class="keyword">return</span> inputs.length
+    , (result) -&gt;
+      expect(result).to.be.equal(<span class="number">3</span>)
+      done()
+
+  it <span class="string">"should contain a submit button"</span>, (done) -&gt;
+    page.evaluate -&gt;
+      submit = document.querySelectorAll(<span class="string">"input[type=submit]"</span>)
+      <span class="keyword">return</span> submit.length
+    , (result) -&gt;
+      expect(result).to.be.equal(<span class="number">1</span>)
+      done()</pre></div>
+        
+      
+        
+        <p>Submit form</p>
+
+        
+          <div class='highlight'><pre>describe <span class="string">"Headless browser test example: Submitting a form"</span>, -&gt;
+  page = {}
+
+  before (done) -&gt;
+    <span class="property">@timeout</span> <span class="number">10000</span></pre></div>
+        
+      
+        
+        <p>Emulate the process of submitting a form</p>
+
+        
+          <div class='highlight'><pre>    ph.createPage (p) -&gt;
+      page = p
+
+      page.open serverPath, (status) -&gt;</pre></div>
+        
+      
+        
+        <p>After page submit, set process as done</p>
+
+        
+          <div class='highlight'><pre>        page.set <span class="string">"onLoadFinished"</span>, (status) -&gt;
+          done()</pre></div>
+        
+      
+        
+        <p>Fill up the form and submit form</p>
+
+        
+          <div class='highlight'><pre>        page.evaluate -&gt;
+
+          nameInput = document.getElementById(<span class="string">"input-name"</span>)
+          nameInput.value = <span class="string">"Caesar"</span>
+
+          ageInput = document.getElementById(<span class="string">"input-age"</span>)
+          ageInput.value = <span class="number">15</span>
+
+          foodInput = document.getElementById(<span class="string">"input-food"</span>)
+          foodInput.value = <span class="string">"salad"</span>
+
+          document.form.submit()
+
+        , -&gt;
+          <span class="keyword">return</span> <span class="comment"># Don't do anything here</span>
+ 
+  it <span class="string">"should say Hello Caesar at the next page"</span>, (done) -&gt;
+    page.evaluate -&gt;
+      title = document.querySelector(<span class="string">"h1"</span>)
+      <span class="keyword">return</span> title.innerText
+    , (result) -&gt;
+      expect(result).to.be.equal(<span class="string">"Hello Caesar!"</span>)
+      done()
+
+  it <span class="string">"should show Caesar's name and age and favorite food"</span>, (done) -&gt;
+    page.evaluate -&gt;
+      result = document.querySelector(<span class="string">".result"</span>)
+      <span class="keyword">return</span> result.innerText
+    , (result) -&gt;
+      expect(result).to.be.equal(<span class="string">"Now I know that your name is Caesar, your age is 15 and your favorite food is salad."</span>)
+      done()</pre></div>
+        
+      
+        
+        <p>Kill the server and PhantomJS instance after done</p>
+
+        
+          <div class='highlight'><pre>after (done) -&gt;
+  testHelpers.clearDatabase -&gt;
+    ph.exit()
+    testHelpers.stopServer serverPath, -&gt;
+      done()</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>
