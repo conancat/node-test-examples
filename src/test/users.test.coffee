@@ -19,7 +19,7 @@ before (done) ->
   testHelpers.clearDatabase done
 
 # Test get users function
-describe "getUser", ->
+describe "Database test example: Getting data from db", ->
   {getUser} = users
 
   # Create mock items in database first
@@ -55,7 +55,7 @@ describe "getUser", ->
       done()
 
 # Create or update user
-describe "createOrUpdateUser", ->
+describe "Database test example: Creating or updating data in db", ->
 
   {createOrUpdateUser} = users
 

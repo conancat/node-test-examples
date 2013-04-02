@@ -8,7 +8,7 @@
 
   helpers = require("../lib/helpers");
 
-  describe("Test validate age", function() {
+  describe("Module testing example: Input validation", function() {
     var validateAge;
     validateAge = helpers.validateAge;
     it("should return true if valid age is given", function() {
@@ -26,7 +26,7 @@
       val = validateAge("10 years old");
       return expect(val).to.be["false"];
     });
-    return it("should return 10000 iterations successfully", function(done) {
+    return it("should run 10000 iterations successfully", function(done) {
       var i, val, _i;
       for (i = _i = 0; _i < 10000; i = ++_i) {
         val = validateAge(10);

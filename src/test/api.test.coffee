@@ -24,7 +24,7 @@ before (done) ->
       done()
 
 # Start testing the /submit route
-describe "POST /submit", ->
+describe "API test example: POST /submit", ->
 
   # Test with a perfect input
   describe "Perfect input", ->
@@ -86,7 +86,7 @@ describe "POST /submit", ->
     it "should return status of 403", ->
       expect(response.meta.status).to.be.equal(400)
 
-    it "should return error message", ->
+    it "should return error message saying 'Age must be a number'", ->
       expect(response.meta.msg).to.be.equal("Age must be a number")
 
 # Kill the server after done

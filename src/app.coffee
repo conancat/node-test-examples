@@ -2,7 +2,6 @@
 
 # Require modules needed to start server
 express = require("express")
-routes = require("./routes")
 http = require("http")
 app = express()
 
@@ -22,8 +21,8 @@ app.configure "development", ->
   app.use express.errorHandler()
 
 # Setup routes
-app.get "/", routes.index
-app.post "/submit", routes.submit
+app.get "/", require("./routes/home")
+app.post "/submit", require("./routes/submit")
 
 # Setup server. On yeah!
 http.createServer(app).listen app.get("port"), ->

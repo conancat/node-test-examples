@@ -16,7 +16,7 @@
     return testHelpers.clearDatabase(done);
   });
 
-  describe("getUser", function() {
+  describe("Database test example: Getting data from db", function() {
     var getUser;
     getUser = users.getUser;
     before(function(done) {
@@ -57,7 +57,7 @@
     });
   });
 
-  describe("createOrUpdateUser", function() {
+  describe("Database test example: Creating or updating data in db", function() {
     var createOrUpdateUser;
     createOrUpdateUser = users.createOrUpdateUser;
     it("should create user successfully given a perfect input", function(done) {

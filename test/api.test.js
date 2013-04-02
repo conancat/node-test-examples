@@ -25,7 +25,7 @@
     });
   });
 
-  describe("POST /submit", function() {
+  describe("API test example: POST /submit", function() {
     describe("Perfect input", function() {
       var response;
       response = {};
@@ -90,7 +90,7 @@
       it("should return status of 403", function() {
         return expect(response.meta.status).to.be.equal(400);
       });
-      return it("should return error message", function() {
+      return it("should return error message saying 'Age must be a number'", function() {
         return expect(response.meta.msg).to.be.equal("Age must be a number");
       });
     });

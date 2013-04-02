@@ -30,7 +30,7 @@
     });
   });
 
-  describe("Homepage test", function() {
+  describe("Headless Browser test example: Open homepage", function() {
     var page;
     page = {};
     before(function(done) {
@@ -71,7 +71,7 @@
     });
   });
 
-  describe("Submit form", function() {
+  describe("Headless browser test example: Submitting a form", function() {
     var page;
     page = {};
     before(function(done) {

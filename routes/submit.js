@@ -4,18 +4,12 @@
 
   users = require("../lib/users");
 
-  exports.index = function(req, res, next) {
-    res.locals.error = "";
-    res.locals.title = "Hello there!";
-    return res.render("index");
-  };
-
-  exports.submit = function(req, res, next) {
+  module.exports = function(req, res, next) {
     var error;
     error = "";
     return users.createOrUpdateUser(req.body, function(err) {
-      if (req.xhr) {
-        if (err) {
+      if (err) {
+        if (req.xhr) {
           return res.send(400, {
             meta: {
               status: 400,
@@ -23,18 +17,18 @@
             }
           });
         } else {
+          return res.render("index", {
+            title: "Oops!",
+            error: err
+          });
+        }
+      } else {
+        if (req.xhr) {
           return res.send(200, {
             meta: {
               status: 200,
               msg: "ok"
             }
-          });
-        }
-      } else {
-        if (err) {
-          return res.render("index", {
-            title: "Oops!",
-            error: err
           });
         } else {
           return res.render("complete", {

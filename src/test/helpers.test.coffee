@@ -8,7 +8,7 @@ process.env.NODE_ENV = "testing"
 helpers = require "../lib/helpers"
 
 # Describe the test 
-describe "Test validate age", ->
+describe "Module testing example: Input validation", ->
 
   # Import the function
   {validateAge} = helpers
@@ -26,7 +26,7 @@ describe "Test validate age", ->
     val = validateAge("10 years old")
     expect(val).to.be.false
 
-  it "should return 10000 iterations successfully", (done) ->
+  it "should run 10000 iterations successfully", (done) ->
     for i in [0...10000]
       val = validateAge(10)
       expect(val).to.be.true

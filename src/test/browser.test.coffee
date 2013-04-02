@@ -34,7 +34,7 @@ before (done) ->
 
 # BEGIN TEST
 # Start a browser session with a perfect input
-describe "Homepage test", ->
+describe "Headless Browser test example: Open homepage", ->
 
   page = {}
 
@@ -66,7 +66,7 @@ describe "Homepage test", ->
       done()
 
 # Submit form
-describe "Submit form", ->
+describe "Headless browser test example: Submitting a form", ->
   page = {}
 
   before (done) ->

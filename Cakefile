@@ -22,9 +22,16 @@ task 'test', 'Runs all tests', ->
   printOutput(vows)
   
 task 'docs', 'Create documentation using Docco', ->
-  docco = exec """
-    docco -l parallel src/*.coffee
-    docco -l parallel src/lib/*.coffee
-    docco -l parallel src/test/*.coffee
-  """
+  
+  layout = "linear"
+  output = "./"
+
+  docco = exec [
+    "docco -l #{layout} -o #{output} readme.md"
+    "docco -l #{layout} -o #{output} src/*.coffee"
+    "docco -l #{layout} -o #{output} src/lib/*.coffee"
+    "docco -l #{layout} -o #{output} src/test/*.coffee"
+    "mv readme.html index.html"
+  ].join("&&")
+  
   printOutput(docco)
