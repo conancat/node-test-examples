@@ -86,6 +86,5 @@ Sometimes it's too slow to need to open every single page on your website every 
 
 Remember to start the server yourself at least once to go through and see what's happening on the site, before we try to emulate things with our little phantom!
 
-
 ## Contact Me
 If you have any questions, you can also find me on [Twitter](http://twitter.com/conancat) or email me at conancat@gmail.com. I won't bite, I promise!
