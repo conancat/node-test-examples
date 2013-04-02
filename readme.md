@@ -9,7 +9,7 @@ This project is an example project to demonstrate how to write tests in NodeJS. 
 
 This project serves as an introduction to testing with NodeJS. If you're a beginner to NodeJS, new to writing tests, or just checking things out, have fun and let me know what you think! 
 
-Check out the project's [documentation page](http://node-test-examples.github.com)! 
+Check out the project's [documentation page](http://node-test-examples.github.com), and the [Github project](https://github.com/conancat/node-test-examples) page!
 
 If you have any questions, you can also find me on [Twitter](http://twitter.com/conancat) or email me at conancat@gmail.com. 
 
@@ -87,50 +87,4 @@ Sometimes it's too slow to need to open every single page on your website every 
 * [Test code](http://node-test-examples.github.com/browser.test.html)
 
 Remember to start the server yourself at least once to go through and see what's happening on the site, before we try to emulate things with our little phantom!
-
-
-## Test results
-
-For your reference only! 
-
-      API test example: POST /submit
-        Perfect input
-          ✓ should return a JSON object
-          ✓ should contain the meta data
-          ✓ should return status of 200
-          ✓ should return 'ok' message
-        Error input
-          ✓ should return a JSON object
-          ✓ should contain the meta data
-          ✓ should return status of 403
-          ✓ should return error message saying 'Age must be a number'
-
-      Headless Browser test example: Open homepage
-        ✓ should be able to open page successfully with correct page title
-        ✓ should contain 3 input boxes
-        ✓ should contain a submit button
-
-      Headless browser test example: Submitting a form
-        ✓ should say Hello Caesar at the next page
-        ✓ should show Caesar's name and age and favorite food
-
-      Module testing example: Input validation
-        ✓ should return true if valid age is given
-        ✓ should return false if given a pure string
-        ✓ should return false if given a number + string combination
-        ✓ should run 10000 iterations successfully (52ms)
-
-      Database test example: Getting data from db
-        ✓ should get the user by supplying the name in input
-        ✓ should return user that has age specified if specified
-        ✓ should return null if no users are found
-
-      Database test example: Creating or updating data in db
-        ✓ should create user successfully given a perfect input
-        ✓ should throw error if missing name in input
-        ✓ should throw error if missing age in input
-        ✓ should throw error if age is not a number
-
-
-      24 tests complete (2 seconds)
 

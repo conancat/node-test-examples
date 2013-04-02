@@ -23,7 +23,7 @@
 <li>Headless browser testing on the server side (with <a href="http://phantomjs.org/">PhantomJS</a>)</li>
 </ul>
 <p>This project serves as an introduction to testing with NodeJS. If you&#39;re a beginner to NodeJS, new to writing tests, or just checking things out, have fun and let me know what you think! </p>
-<p>Check out the project&#39;s <a href="http://node-test-examples.github.com">documentation page</a>! </p>
+<p>Check out the project&#39;s <a href="http://node-test-examples.github.com">documentation page</a>, and the <a href="https://github.com/conancat/node-test-examples">Github project</a> page!</p>
 <p>If you have any questions, you can also find me on <a href="http://twitter.com/conancat">Twitter</a> or email me at conancat@gmail.com. </p>
 <h2>Tools that we&#39;ll need</h2>
 <ul>
@@ -76,41 +76,6 @@ npm install</p>
 <li><a href="http://node-test-examples.github.com/browser.test.html">Test code</a></li>
 </ul>
 <p>Remember to start the server yourself at least once to go through and see what&#39;s happening on the site, before we try to emulate things with our little phantom!</p>
-<h2>Test results</h2>
-<p>For your reference only! </p>
-<p>API test example: POST /submit
-Perfect input
-✓ should return a JSON object
-✓ should contain the meta data
-✓ should return status of 200
-✓ should return &#39;ok&#39; message
-Error input
-✓ should return a JSON object
-✓ should contain the meta data
-✓ should return status of 403
-✓ should return error message saying &#39;Age must be a number&#39;</p>
-<p>Headless Browser test example: Open homepage
-✓ should be able to open page successfully with correct page title
-✓ should contain 3 input boxes
-✓ should contain a submit button</p>
-<p>Headless browser test example: Submitting a form
-✓ should say Hello Caesar at the next page
-✓ should show Caesar&#39;s name and age and favorite food</p>
-<p>Module testing example: Input validation
-✓ should return true if valid age is given
-✓ should return false if given a pure string
-✓ should return false if given a number + string combination
-✓ should run 10000 iterations successfully (52ms)</p>
-<p>Database test example: Getting data from db
-✓ should get the user by supplying the name in input
-✓ should return user that has age specified if specified
-✓ should return null if no users are found</p>
-<p>Database test example: Creating or updating data in db
-✓ should create user successfully given a perfect input
-✓ should throw error if missing name in input
-✓ should throw error if missing age in input
-✓ should throw error if age is not a number</p>
-<p>24 tests complete (2 seconds)</p>
 
           
         
