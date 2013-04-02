@@ -34,6 +34,7 @@ task 'docs', 'Create documentation using Docco', ->
     "docco -l #{layout} -o #{output} src/lib/*.coffee"
     "docco -l #{layout} -o #{output} src/test/*.coffee"
     "mv readme.html index.html"
+    "git checkout master"
   ].join("&&")
   
   printOutput(docco)
