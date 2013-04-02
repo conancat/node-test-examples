@@ -63,14 +63,18 @@
 
       
         
-        <p>IMPORTANT: Set environment as testing</p>
+        <h2>Setting up</h2>
+<p><em>IMPORTANT</em>: Set your environment as testing, and have environment specific 
+configurations. You DON&#39;T want to mess with your production database while
+you&#39;re working on testing! To see how we setup environment specific configurations, 
+check out our <a href="http://node-test-examples.github.com/conf.html">configuration file</a>.</p>
 
         
           <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
       
         
-        <p>Use Chai&#39;s expect for assertion</p>
+        <p>Use Chai module for assertion. We&#39;ll be using the <a href="http://chaijs.com/guide/styles/"><code>expect</code></a> interface here.  </p>
 
         
           <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
@@ -84,21 +88,24 @@
         
       
         
-        <p>Describe the test </p>
+        <h2>Begin Test</h2>
+<p>First we create a group of tests, let&#39;s start by describing the test</p>
 
         
           <div class='highlight'><pre>describe <span class="string">"Module testing example: Input validation"</span>, -&gt;</pre></div>
         
       
         
-        <p>Import the function</p>
+        <p>Just a quick reference to the function we&#39;re testing</p>
 
         
           <div class='highlight'><pre>  {validateAge} = helpers</pre></div>
         
       
         
-        <p>Run the test cases</p>
+        <p>These tests are straight forward true or false tests that we want
+to run against our function. We want the result being returned 
+from the function works exactly like how we want it to be.</p>
 
         
           <div class='highlight'><pre>  it <span class="string">"should return true if valid age is given"</span>, -&gt;
@@ -111,14 +118,21 @@
 
   it <span class="string">"should return false if given a number + string combination"</span>, -&gt;
     val = validateAge(<span class="string">"10 years old"</span>)
-    expect(val).to.be.<span class="literal">false</span>
+    expect(val).to.be.<span class="literal">false</span></pre></div>
+        
+      
+        
+        <p>In some cases we want to see how well this function is performing. 
+Yeah, unit tests, baby! Let&#39;s run the function 10000 times and see
+how much times it takes for it to perform. This is good for benchmarking
+and optimising your code. But most of the time, as a first step, get the functions 
+right first. </p>
 
-  it <span class="string">"should run 10000 iterations successfully"</span>, (done) -&gt;
+        
+          <div class='highlight'><pre>  it <span class="string">"should run 10000 iterations successfully"</span>, -&gt;
     <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">0.</span>.<span class="number">.10000</span>]
       val = validateAge(<span class="number">10</span>)
-      expect(val).to.be.<span class="literal">true</span>
-
-    done()</pre></div>
+      expect(val).to.be.<span class="literal">true</span></pre></div>
         
       
       <div class="fleur">h</div>

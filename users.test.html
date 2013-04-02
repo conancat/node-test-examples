@@ -63,42 +63,57 @@
 
       
         
-        <p>IMPORTANT: Set environment as testing</p>
+        <h2>Setting up</h2>
+<p><em>IMPORTANT</em>: Set your environment as testing, and have environment specific 
+configurations. You DON&#39;T want to mess with your production database while
+you&#39;re working on testing! To see how we setup environment specific configurations, 
+check out our <a href="http://node-test-examples.github.com/conf.html">configuration file</a>.</p>
 
         
           <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
       
         
-        <p>Require chai</p>
+        <p>Use Chai module for assertion. We&#39;ll be using the <a href="http://chaijs.com/guide/styles/"><code>expect</code></a> interface here.  </p>
 
         
           <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
         
       
         
-        <p>Some test helpers</p>
+        <p>Some test helper functions that we will use for setting up server, cleaning up database etc. </p>
 
         
           <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
         
       
         
-        <p>Require lib module</p>
+        <p>Require the main module that we will be using</p>
 
         
           <div class='highlight'><pre>users = require <span class="string">"../lib/users"</span></pre></div>
         
       
         
-        <p>Require the database model</p>
+        <p>Require the database model so that we can make calls from our test to the database
+to make sure things are being properly created</p>
 
         
           <div class='highlight'><pre>{User} = require <span class="string">"../lib/models"</span></pre></div>
         
       
         
-        <p>Clear the database before doing any operations</p>
+        <h2>Begin Test</h2>
+<p>Note: You&#39;ll notice that there are some <code>done</code> calls being called here. This is a cool 
+thing about Mocha -- for every test that you write, you can use the <code>done</code> call to specify
+that it is an asynchronous code, and will only be completed after you call the <code>done</code> function. 
+If no <code>done</code> is passed, then it will assume that it&#39;s a synchronous test. </p>
+<p>For more info, check out Mocha&#39;s <a href="http://visionmedia.github.com/mocha/">documentation</a>. </p>
+<p>Before we begin... </p>
+<ul>
+<li>Clear the database before doing any operations, so that we will not 
+be affected by any old data. </li>
+</ul>
 
         
           <div class='highlight'><pre>before (done) -&gt;
@@ -106,7 +121,16 @@
         
       
         
-        <p>Test get users function</p>
+        <p>Let&#39;s begin the party!</p>
+<h3>getUser()</h3>
+<p>First, we need to populate 
+the database with some mock users. These input are defined in the 
+<code>mocks/users.json</code> file which we will require and insert them into the database. 
+Then we can safely test the getUser function if it&#39;s working or not. </p>
+<p>After we&#39;re done testing with a perfect input and getting the results that 
+we want, we will test the behaviors of validation as well to see if 
+bad inputs are throwing errors as we will expect them to be. We don&#39;t want 
+bad data to go into the database, they will cause trouble later! </p>
 
         
           <div class='highlight'><pre>describe <span class="string">"Database test example: Getting data from db"</span>, -&gt;
@@ -123,7 +147,7 @@
         
       
         
-        <p>Begin test cases</p>
+        <p>Let&#39;s test with a normal call, using the name as the argument. </p>
 
         
           <div class='highlight'><pre>  it <span class="string">"should get the user by supplying the name in input"</span>, (done) -&gt;
@@ -133,28 +157,56 @@
 
     getUser data, (err, result) -&gt;
       expect(result.name).to.be.equal(<span class="string">"Caesar"</span>)
-      done()
+      done()</pre></div>
+        
+      
+        
+        <p>After that, let&#39;s test with the required argument, and an optional argument
+and see if it is returning the result that we expected. </p>
 
-  it <span class="string">"should return user that has age specified if specified"</span>, (done) -&gt;
+        
+          <div class='highlight'><pre>  it <span class="string">"should return user that has age specified if specified"</span>, (done) -&gt;
     data = 
       name: <span class="string">"Caesar"</span>
       age: <span class="number">15</span>
 
     getUser data, (err, result) -&gt;
       expect(result.food).to.be.equal(<span class="string">"salad"</span>)
-      done()
+      done()</pre></div>
+        
+      
+        
+        <p>The function works perfectly! Now we need to see if we give it some weird input
+and if it returns the results we wanted. </p>
 
-  it <span class="string">"should return null if no users are found"</span>, (done) -&gt;
+        
+          <div class='highlight'><pre>  it <span class="string">"should return null if no users are found"</span>, (done) -&gt;
     data = 
       name: <span class="string">"Weird ass name"</span>
 
     getUser data, (err, result) -&gt;
       expect(result).to.be.<span class="literal">null</span>
+      done()
+
+  it <span class="string">"should return error if no name is specified"</span>, (done) -&gt;
+    data = 
+      age: <span class="number">10</span>
+
+    getUser data, (err, result) -&gt;
+      expect(err).to.be.equal(<span class="string">"Name is required"</span>)
       done()</pre></div>
         
       
         
-        <p>Create or update user</p>
+        <h3>createOrUpdateUser()</h3>
+<p>For this function, we don&#39;t have to 
+create mocks in the database. Instead we call the function directly, 
+check if it returns no error, and we will make a call from the test 
+file to the database and see if the entry is being inserted correctly. </p>
+<p>We will also make some bad calls to the function on purpose just to see
+if the validations are working correctly when we call the function, 
+so that no jackasses will pass in some weird input and it screws up 
+our database entries. We don&#39;t like screwed up databases, do we? </p>
 
         
           <div class='highlight'><pre>describe <span class="string">"Database test example: Creating or updating data in db"</span>, -&gt;
@@ -166,7 +218,8 @@
         <p>The perfect scenario!</p>
 
         
-          <div class='highlight'><pre>  it <span class="string">"should create user successfully given a perfect input"</span>, (done) -&gt;
+          <div class='highlight'><pre>  
+  it <span class="string">"should create user successfully given a perfect input"</span>, (done) -&gt;
 
     data = 
       name: <span class="string">"Grey"</span>
@@ -180,9 +233,15 @@
         <p>Err should be null, yeah</p>
 
         
-          <div class='highlight'><pre>      expect(err).to.be.<span class="literal">null</span>
+          <div class='highlight'><pre>      expect(err).to.be.<span class="literal">null</span></pre></div>
+        
+      
+        
+        <p>Lets make a call to the database to make sure that it is being saved in the 
+database.</p>
 
-      User.findOne name: data.name, (err, result) -&gt;
+        
+          <div class='highlight'><pre>      User.findOne name: data.name, (err, result) -&gt;
         expect(result).to.be.an(<span class="string">"object"</span>)
         done()</pre></div>
         
@@ -218,6 +277,15 @@
     createOrUpdateUser data, (err) -&gt;
       expect(err).to.be.equal(<span class="string">"Age must be a number"</span>)
       done()</pre></div>
+        
+      
+        
+        <p>After we&#39;re done...</p>
+<p>Clear the database again. We&#39;re being clean, you know?</p>
+
+        
+          <div class='highlight'><pre>after (done) -&gt;
+  testHelpers.clearDatabase done</pre></div>
         
       
       <div class="fleur">h</div>

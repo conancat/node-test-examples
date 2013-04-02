@@ -56,30 +56,83 @@
 
       
         
-        <p>Get the schema</p>
+        <h2>Setup</h2>
+<p>Lets get the schema from our Models definition</p>
 
         
-          <div class='highlight'><pre>{User} = require <span class="string">"./models"</span>
-{validateAge} = require <span class="string">"./helpers"</span>
+          <div class='highlight'><pre>{User} = require <span class="string">"./models"</span></pre></div>
+        
+      
+        
+        <p>...and get the function that we&#39;ll be using throughout our code</p>
 
-<span class="function"><span class="title">getUser</span></span> = (data, callback) -&gt;
-  <span class="keyword">if</span> <span class="keyword">not</span> data.name 
-    <span class="keyword">return</span> callback <span class="string">"Name required"</span>
+        
+          <div class='highlight'><pre>{validateAge} = require <span class="string">"./helpers"</span></pre></div>
+        
+      
+        
+        <h2>The Functions</h2>
+<h3>getUser(data, callback)</h3>
+<pre><code>@params 
+    name(String)  Name of the user that we want to query, Required
+    age(Number)   Age of the user that we want to query. Optional
 
-  query = User.findOne {}
+@returns
+    The User object found in the database</code></pre>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="title">getUser</span></span> = (data, callback) -&gt;</pre></div>
+        
+      
+        
+        <p>First we validate if the input is complete. If it&#39;s not, callback error</p>
+
+        
+          <div class='highlight'><pre>  <span class="keyword">if</span> <span class="keyword">not</span> data.name 
+    <span class="keyword">return</span> callback <span class="string">"Name is required"</span></pre></div>
+        
+      
+        
+        <p>Create our query, specifiying the name as a required field. 
+We also specify that if the input contains age, then we&#39;ll 
+use that as an argument to query as well</p>
+<p>For more information about how MongoDB queries work, check this out</p>
+<ul>
+<li><a href="http://docs.mongodb.org/manual/reference/method/db.collection.findOne/">http://docs.mongodb.org/manual/reference/method/db.collection.findOne/</a></li>
+<li><a href="http://mongoosejs.com/docs/queries.html">http://mongoosejs.com/docs/queries.html</a></li>
+</ul>
+
+        
+          <div class='highlight'><pre>  query = User.findOne {}
 
   query.where <span class="string">"name"</span>, data.name
   
   <span class="keyword">if</span> data.age
-    query.where <span class="string">"age"</span>, data.age
-
-  query.exec callback
-
-<span class="function"><span class="title">createOrUpdateUser</span></span> = (data, callback) -&gt;</pre></div>
+    query.where <span class="string">"age"</span>, data.age</pre></div>
         
       
         
-        <p>Validate input</p>
+        <p>Execute the query and return the results directly</p>
+
+        
+          <div class='highlight'><pre>  query.exec callback</pre></div>
+        
+      
+        
+        <h3>createOrUpdateUser(data, callback)</h3>
+<pre><code>@params 
+    name(String)  Name of the user that we want to create, required
+    age(Number)   Age of the user that we want to create, required
+
+@returns
+    The User object found in the database</code></pre>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="title">createOrUpdateUser</span></span> = (data, callback) -&gt;</pre></div>
+        
+      
+        
+        <p>First we validate if the input is complete. If it&#39;s not, callback error</p>
 
         
           <div class='highlight'><pre>  <span class="keyword">if</span> <span class="keyword">not</span> data.name
@@ -93,7 +146,13 @@
         
       
         
-        <p>Create or update the user</p>
+        <p>We fire a query to the database to update the existing user&#39;s entry if 
+it exists, if it doesn&#39;t we&#39;ll create a new entry. For more information 
+about how update() works in MongoDB, check this out. </p>
+<ul>
+<li><a href="http://docs.mongodb.org/manual/reference/method/db.collection.update/">http://docs.mongodb.org/manual/reference/method/db.collection.update/</a></li>
+<li><a href="http://mongoosejs.com/docs/2.7.x/docs/updating-documents.html">http://mongoosejs.com/docs/2.7.x/docs/updating-documents.html</a></li>
+</ul>
 
         
           <div class='highlight'><pre>  User.update
@@ -110,7 +169,7 @@
         
       
         
-        <p>Export the functions</p>
+        <h2>Module exports</h2>
 
         
           <div class='highlight'><pre>module.exports = 
