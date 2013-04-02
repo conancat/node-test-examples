@@ -11,8 +11,6 @@ This project serves as an introduction to testing with NodeJS. If you're a begin
 
 Check out the project's [documentation page](http://node-test-examples.github.com), and the [Github project](https://github.com/conancat/node-test-examples) page!
 
-If you have any questions, you can also find me on [Twitter](http://twitter.com/conancat) or email me at conancat@gmail.com. 
-
 ## Tools that we'll need
 
 * [Mocha](http://visionmedia.github.com/mocha/), our testing framework of choice
@@ -88,3 +86,5 @@ Sometimes it's too slow to need to open every single page on your website every 
 
 Remember to start the server yourself at least once to go through and see what's happening on the site, before we try to emulate things with our little phantom!
 
+## Contact Me
+If you have any questions, you can also find me on [Twitter](http://twitter.com/conancat) or email me at conancat@gmail.com. I won't bite, I promise!
