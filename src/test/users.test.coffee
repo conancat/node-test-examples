@@ -1,3 +1,9 @@
+# Codes you should look at: 
+# * [users.test.coffee](https://github.com/conancat/node-test-examples/blob/master/src/test/users.test.coffee)
+
+# Related pages: 
+# * [Function code](http://node-test-examples.github.com/users.html)
+
 # ## Setting up
 
 # *IMPORTANT*: Set your environment as testing, and have environment specific 

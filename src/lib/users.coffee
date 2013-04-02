@@ -1,3 +1,10 @@
+# Codes you should look at: 
+# * [users.coffee](https://github.com/conancat/node-test-examples/blob/master/src/lib/users.coffee)
+
+# Related pages: 
+# * [Test code](http://node-test-examples.github.com/users.test.html)
+
+
 # ## Setup
 
 # Lets get the schema from our Models definition
