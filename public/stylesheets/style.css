@@ -1,0 +1,82 @@
+body {
+  padding: 50px;
+  width: 500px;
+  margin: 0 auto;
+  color: #555;
+  background: #f5f5f5;
+}
+
+body, input {
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 3em;
+  color: #2aa;
+}
+
+a {
+  color: #00B7FF;
+  text-decoration: none;
+}
+
+.pitch {
+  font-size: 2em;
+}
+
+label, .input {
+  font-size: 1.2em;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.row {
+  margin-bottom: 2em; 
+}
+
+.input {
+  padding: 0.2em 0.4em;
+  border: none;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 0 1px 2px 1px;
+  background: none;
+  transition: 0.2s border-color;
+  margin-right: 1em;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #3bb;
+}
+
+.input.large {
+  width: 300px;
+}
+
+.input.small {
+  width: 100px;
+}
+
+.btn {
+  background: #3aa;
+  border: none;
+  color: white;
+  font-size: 1.4em;
+  font-weight: 300;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: 200ms background;
+}
+
+.btn:hover {
+  background: #5cc;
+}
+
+.error {
+  color: #a33;
+}

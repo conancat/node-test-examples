@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Caesar",
+    "age": 10,
+    "food": "chocolate"
+  }, {
+    "name": "Caesar",
+    "age": 15,
+    "food": "salad"
+  }, {
+    "name": "Alvin",
+    "age": 12,
+    "food": "coconut"
+  }, {
+    "name": "Johnson",
+    "age": 11,
+    "food": "chicken"
+  }, {
+    "name": "Kristine",
+    "age": 8,
+    "food": "candy"
+  }
+]

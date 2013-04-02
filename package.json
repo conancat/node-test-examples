@@ -1,0 +1,29 @@
+{
+  "name": "nodejs-tests-example",
+  "version": "0.0.1",
+  "description": "Example project for writing test cases in NodeJS. Uses Mocha as the main testing engine, and PhantomJS for browser testing.",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "express": ">= 0.0.1",
+    "mongoose": ">= 0.0.1",
+    "jade": ">= *"
+  },
+  "devDependencies": {
+    "request": ">= 0.0.1",
+    "mocha": ">= 0.0.1",
+    "chai": ">= 0.0.1",
+    "phantom": ">= 0.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cellkast/eumakh.git"
+  },
+  "author": "",
+  "license": "BSD"
+}

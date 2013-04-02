@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+
+  p.pitch.result Now I know that your name is #{user.name}, your age is #{user.age} and your favorite food is #{user.food}.
+
+  p.pitch You're awesome! 
+
+  .row
+    a.btn(href="/") &laquo; Back
+

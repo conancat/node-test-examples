@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+
+  p.pitch Tell us something about yourself.
+
+  form.form(action="/submit", method="POST", name="form")
+    .row
+      label What is your name?
+      input.input.large#input-name(type="text", name="name") 
+
+    .row
+      label How old are you? 
+      input.input.small#input-age(type="text", name="age")
+
+      if error.length
+        span.error Oops, your age must be a number.
+
+    .row
+      label What is your favorite food?
+      input.input.large#input-food(type="text", name="food")
+
+    .row
+      input.btn#btn-submit(type="submit", value="Submit")
