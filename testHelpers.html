@@ -63,95 +63,67 @@
 
       
         
-        <p>Some system modules</p>
+        <h2>The Setup</h2>
+<p>Just getting some modules that we will need and stuff, the usual. </p>
 
         
           <div class='highlight'><pre>path = require <span class="string">"path"</span>
-child_process = require <span class="string">"child_process"</span></pre></div>
+child_process = require <span class="string">"child_process"</span>
+
+models = require <span class="string">"../lib/models"</span>
+
+servers = {}</pre></div>
         
       
         
-        <p>Get the models to clear database</p>
+        <h2>The Functions</h2>
+<h3>startServer()</h3>
+<p>Starts a server by spawning a child process, and saving the process
+in the <code>servers</code> object so that we can kill it later on. We generate
+a random port on start so that every server started runs on different 
+processes, on different ports, starting a couple of sandboxed tests 
+at the same time. </p>
+<p>Note: In our <code>app.js</code> file we&#39;ve specified that the port to listen to 
+is determinded by our <code>PORT</code> env var. Thus we generate
+a different <code>PORT</code> every time we start one.</p>
+<pre><code>@returns
+    serverPath    The URL of the server being started, 
+                  so that we can make calls to it</code></pre>
 
         
-          <div class='highlight'><pre>models = require <span class="string">"../lib/models"</span></pre></div>
+          <div class='highlight'><pre><span class="function"><span class="title">startServer</span></span> = (callback) -&gt;
+  process.env.PORT = Math.max(<span class="number">1001</span>, <span class="number">10000</span> - Math.round(Math.random() * <span class="number">10000</span>))
+  filepath = path.resolve path.dirname(module.filename), <span class="string">"../app"</span>
+  server = child_process.spawn <span class="string">"node"</span>, [filepath]</pre></div>
         
       
         
-        <p>Some variables</p>
-
-        
-          <div class='highlight'><pre>servers = {}</pre></div>
-        
-      
-        
-        <p>Creates the server, returns the server as the result</p>
-
-        
-          <div class='highlight'><pre><span class="function"><span class="title">startServer</span></span> = (callback) -&gt;</pre></div>
-        
-      
-        
-        <p>Randomly generate a port</p>
-
-        
-          <div class='highlight'><pre>  process.env.PORT = Math.max(<span class="number">1000</span>, <span class="number">10000</span> - Math.round(Math.random() * <span class="number">10000</span>))</pre></div>
-        
-      
-        
-        <p>Server path</p>
-
-        
-          <div class='highlight'><pre>  filepath = path.resolve path.dirname(module.filename), <span class="string">"../app"</span></pre></div>
-        
-      
-        
-        <p>Spawn the server process</p>
-
-        
-          <div class='highlight'><pre>  server = child_process.spawn <span class="string">"node"</span>, [filepath]</pre></div>
-        
-      
-        
-        <p>log output data</p>
+        <p>Log the output data.
+If server is started, consider the setup as done
+Also cache the server in the <code>servers</code> object so 
+we can kill it later on. </p>
+<p>Also log the error data, and callback error if it happens. </p>
 
         
           <div class='highlight'><pre>  server.stdout.<span class="literal">on</span> <span class="string">"data"</span>, (data) -&gt;
-    str = data.toString()</pre></div>
-        
-      
-        
-        <p>If server is started, consider the setup as done</p>
-
-        
-          <div class='highlight'><pre>    <span class="keyword">if</span> <span class="regexp">/listening on/</span>.test(str) 
-      serverPath = str.split(<span class="string">" "</span>).pop().trim()</pre></div>
-        
-      
-        
-        <p>Cache the server in the list of servers started</p>
-
-        
-          <div class='highlight'><pre>      servers[serverPath] = server
-
-      callback <span class="literal">null</span>, serverPath</pre></div>
-        
-      
-        
-        <p>Log error data</p>
-
-        
-          <div class='highlight'><pre>  server.stderr.<span class="literal">on</span> <span class="string">"data"</span>, (data) -&gt;
-
     str = data.toString()
 
-    console.error str
+    <span class="keyword">if</span> <span class="regexp">/listening on/</span>.test(str) 
+      serverPath = str.split(<span class="string">" "</span>).pop().trim()
+      servers[serverPath] = server
+      callback <span class="literal">null</span>, serverPath
 
+  server.stderr.<span class="literal">on</span> <span class="string">"data"</span>, (data) -&gt;
+    str = data.toString()
+    console.error str
     callback str</pre></div>
         
       
         
-        <p>Kill the server</p>
+        <h3>stopServer()</h3>
+<p>Kills the server, based on the provided server path. 
+If the server exists and running, then kill it. If it&#39;s not, 
+meh. We also specify it to callback after server exists, just in case.</p>
 
         
           <div class='highlight'><pre><span class="function"><span class="title">stopServer</span></span> = (serverPath, callback) -&gt;
@@ -168,27 +140,22 @@ child_process = require <span class="string">"child_process"</span></pre></div>
         
       
         
-        <p>Clear the database</p>
+        <h3>clearDatabase()</h3>
+<p>This is a MongoDB operation which clears the database, by iterating
+through the models defined in the <code>models.js</code> file and clearing 
+each one of them. As clearing the DB is an asynchronous task, a normal 
+<code>for</code> loop wouldn&#39;t work. We wanna make sure each database is cleared
+before we move on to the next one. </p>
 
         
           <div class='highlight'><pre><span class="function"><span class="title">clearDatabase</span></span> = (callback) -&gt;
   i = <span class="number">0</span>
-  dbs = []</pre></div>
-        
-      
-        
-        <p>Get a list of dbs</p>
+  dbs = []
 
-        
-          <div class='highlight'><pre>  <span class="keyword">for</span> key, val <span class="keyword">of</span> models
-    dbs.push val</pre></div>
-        
-      
-        
-        <p>Clear the databases</p>
+  <span class="keyword">for</span> key, val <span class="keyword">of</span> models
+    dbs.push val
 
-        
-          <div class='highlight'><pre>  <span class="function"><span class="title">clear</span></span> = -&gt;
+  <span class="function"><span class="title">clear</span></span> = -&gt;
     <span class="keyword">if</span> <span class="keyword">not</span> dbs[i] <span class="keyword">then</span> <span class="keyword">return</span> callback <span class="literal">null</span>
 
     dbs[i].remove (err) -&gt;
@@ -196,9 +163,15 @@ child_process = require <span class="string">"child_process"</span></pre></div>
       i++
       clear()
 
-  clear()
+  clear()</pre></div>
+        
+      
+        
+        <h2>Finally</h2>
+<p>Just export the functions! </p>
 
-module.exports = 
+        
+          <div class='highlight'><pre>module.exports = 
   startServer: startServer
   stopServer: stopServer
   clearDatabase: clearDatabase</pre></div>
