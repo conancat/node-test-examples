@@ -1,47 +1,63 @@
-# Some system modules
+# ## The Setup
+
+# Just getting some modules that we will need and stuff, the usual. 
+
 path = require "path"
 child_process = require "child_process"
 
-# Get the models to clear database
 models = require "../lib/models"
 
-# Some variables
 servers = {}
 
-# Creates the server, returns the server as the result
+
+# ## The Functions
+
+# ### startServer()
+# 
+# Starts a server by spawning a child process, and saving the process
+# in the `servers` object so that we can kill it later on. We generate
+# a random port on start so that every server started runs on different 
+# processes, on different ports, starting a couple of sandboxed tests 
+# at the same time. 
+#
+# Note: In our `app.js` file we've specified that the port to listen to 
+# is determinded by our `PORT` env var. Thus we generate
+# a different `PORT` every time we start one.
+#
+#     @returns
+#         serverPath    The URL of the server being started, 
+#                       so that we can make calls to it
+
 startServer = (callback) ->
-  # Randomly generate a port
-  process.env.PORT = Math.max(1000, 10000 - Math.round(Math.random() * 10000))
-
-  # Server path
+  process.env.PORT = Math.max(1001, 10000 - Math.round(Math.random() * 10000))
   filepath = path.resolve path.dirname(module.filename), "../app"
-
-  # Spawn the server process
   server = child_process.spawn "node", [filepath]
 
-  # log output data
+  # Log the output data.
+  # If server is started, consider the setup as done
+  # Also cache the server in the `servers` object so 
+  # we can kill it later on. 
+  #
+  # Also log the error data, and callback error if it happens. 
+
   server.stdout.on "data", (data) ->
     str = data.toString()
 
-    # If server is started, consider the setup as done
     if /listening on/.test(str) 
       serverPath = str.split(" ").pop().trim()
-
-      # Cache the server in the list of servers started
       servers[serverPath] = server
-
       callback null, serverPath
 
-  # Log error data
   server.stderr.on "data", (data) ->
-
     str = data.toString()
-
     console.error str
-
     callback str
 
-# Kill the server
+# ### stopServer()
+# 
+# Kills the server, based on the provided server path. 
+# If the server exists and running, then kill it. If it's not, 
+# meh. We also specify it to callback after server exists, just in case.
 stopServer = (serverPath, callback) ->
 
   if servers[serverPath]
@@ -54,16 +70,21 @@ stopServer = (serverPath, callback) ->
   else
     callback null
 
-# Clear the database
+# ### clearDatabase()
+# 
+# This is a MongoDB operation which clears the database, by iterating
+# through the models defined in the `models.js` file and clearing 
+# each one of them. As clearing the DB is an asynchronous task, a normal 
+# `for` loop wouldn't work. We wanna make sure each database is cleared
+# before we move on to the next one. 
+
 clearDatabase = (callback) ->
   i = 0
   dbs = []
 
-  # Get a list of dbs
   for key, val of models
     dbs.push val
 
-  # Clear the databases
   clear = ->
     if not dbs[i] then return callback null
 
@@ -73,6 +94,10 @@ clearDatabase = (callback) ->
       clear()
 
   clear()
+
+# ## Finally
+
+# Just export the functions! 
 
 module.exports = 
   startServer: startServer

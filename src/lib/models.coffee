@@ -1,4 +1,7 @@
-# Module requires
+
+# Let's get the schema going! For more information about creating 
+# Mongoose schemas, check out the [documentation](http://mongoosejs.com/docs/guide.html) here. 
+
 mongoose = require "mongoose"
 {Schema} = mongoose
 conf = require "./conf"
@@ -6,7 +9,7 @@ conf = require "./conf"
 # Connect to the database
 mongoose.connect conf.db
 
-# Create the schema
+# Create the schema.
 userSchema = new Schema
   name: String
   age: Number
