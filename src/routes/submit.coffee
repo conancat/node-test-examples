@@ -1,3 +1,8 @@
+# Codes you should look at: 
+#
+# * [submit.coffee](https://github.com/conancat/node-test-examples/blob/master/src/routes/home.coffee)
+# * [index.jade](https://github.com/conancat/node-test-examples/blob/master/views/index.jade)
+
 # Just some simple module require!
 users = require "../lib/users"
 
