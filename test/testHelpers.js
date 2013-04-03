@@ -12,7 +12,7 @@
 
   startServer = function(callback) {
     var filepath, server;
-    process.env.PORT = Math.max(1000, 10000 - Math.round(Math.random() * 10000));
+    process.env.PORT = Math.max(1001, 10000 - Math.round(Math.random() * 10000));
     filepath = path.resolve(path.dirname(module.filename), "../app");
     server = child_process.spawn("node", [filepath]);
     server.stdout.on("data", function(data) {
