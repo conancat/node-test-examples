@@ -17,7 +17,7 @@ process.env.NODE_ENV = "testing"
 
 # Here we're declaring some variables that we're gonna use. 
 # 
-# * # Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
+# * Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
 # * Get the test helper functions
 # * Get the main module that we'll be testing `users`
 # * Require the database model so that we can make calls from our test to the database
