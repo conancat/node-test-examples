@@ -63,51 +63,55 @@
 
       
         
-        <p>IMPORTANT: Set environment as testing</p>
+        <p>Codes you should look at: 
+* <a href="https://github.com/conancat/node-test-examples/blob/master/src/test/browser.test.coffee">browser.test.coffee</a></p>
+<h2>Setting up</h2>
+<p><em>IMPORTANT</em>: Set your environment as testing, and have environment specific 
+configurations. You DON&#39;T want to mess with your production database while
+you&#39;re working on testing! To see how we setup environment specific configurations, 
+check out our <a href="http://conancat.github.com/node-test-examples/conf.html">configuration file</a>.</p>
 
         
           <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
       
         
-        <p>Use Chai&#39;s expect for assertion</p>
+        <p>Here we&#39;re declaring some variables that we&#39;re gonna use. </p>
+<ul>
+<li>Use Chai&#39;s expect for assertion</li>
+<li>Get the test helper functions</li>
+<li>Require Phantom for API testing</li>
+<li>Setup some placeholder variables</li>
+</ul>
 
         
-          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span>
+
+testHelpers = require <span class="string">"./testHelpers"</span>
+
+phantom = require <span class="string">"phantom"</span>
+
+server = {}
+ph = {}
+
+serverPath = <span class="string">""</span></pre></div>
         
       
         
-        <p>some test helper functions</p>
-
-        
-          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
-        
-      
-        
-        <p>use Phantom for API testing</p>
-
-        
-          <div class='highlight'><pre>phantom = require <span class="string">"phantom"</span></pre></div>
-        
-      
-        
-        <p>some variables</p>
-
-        
-          <div class='highlight'><pre>server = {} <span class="comment"># One server instance</span>
-ph = {} <span class="comment"># One PhantomJS instance</span></pre></div>
-        
-      
-        
-        <p>Store the server path returned from starting a server instance</p>
-
-        
-          <div class='highlight'><pre>serverPath = <span class="string">""</span></pre></div>
-        
-      
-        
-        <p>SETUP
-Start server before testing</p>
+        <h2>Begin Test</h2>
+<p>Note: You&#39;ll notice that there are some <code>done</code> calls being called here. This is a cool 
+thing about Mocha -- for every test that you write, you can use the <code>done</code> call to specify
+that it is an asynchronous code, and will only be completed after you call the <code>done</code> function. 
+If no <code>done</code> is passed, then it will assume that it&#39;s a synchronous test. </p>
+<p>For more info, check out Mocha&#39;s <a href="http://visionmedia.github.com/mocha/">documentation</a>. </p>
+<p>Before we begin... </p>
+<p>Before we begin, let&#39;s clear the database to get rid of any old data, 
+and start the server in our test. Our startServer() function returns the 
+serverPath which we will use to make test API calls to later. </p>
+<p>In this page we&#39;re also doing an extra step, which is to initialize our 
+little Phantom instance so that we can use the same Phantom throughout our test later. </p>
+<p>To understand more about what our doing here, 
+check out the <a href="http://conancat.github.com/node-test-examples/testHelpers.html">testHelpers</a> page. </p>
 
         
           <div class='highlight'><pre>before (done) -&gt;
@@ -116,21 +120,19 @@ Start server before testing</p>
   testHelpers.startServer (err, result) -&gt;
     <span class="keyword">if</span> err <span class="keyword">then</span> <span class="keyword">return</span> done err
 
-    serverPath = result</pre></div>
-        
-      
-        
-        <p>Create the phantomJS instance</p>
+    serverPath = result
 
-        
-          <div class='highlight'><pre>    phantom.create (phantomInstance) -&gt;
+    phantom.create (phantomInstance) -&gt;
       ph = phantomInstance
       done()</pre></div>
         
       
         
-        <p>BEGIN TEST
-Start a browser session with a perfect input</p>
+        <h2>Begin Test</h2>
+<h3>Open the homepage</h3>
+<p>Well this is a really simple one. We call our Phantom to open our homepage, and see 
+if it correctly opened the page, and see if some page elements are there, such as 
+the three input boxes and a submit button. Hah. </p>
 
         
           <div class='highlight'><pre>describe <span class="string">"Headless Browser test example: Open homepage"</span>, -&gt;
@@ -166,39 +168,37 @@ Start a browser session with a perfect input</p>
         
       
         
-        <p>Submit form</p>
+        <h3>Submit form</h3>
+<p>This one is slightly tougher. We&#39;re going to fill up the form elements
+on the page with some mock data, and when we&#39;re done, we will submit the form, 
+wait for the next page to load, and run tests on the results page. </p>
+<p>So what&#39;s the process?</p>
+<p>Over here, we&#39;re telling our Phantom to load the homepage. 
+Once it&#39;s done loading, we add a callback
+to Phantom telling that &quot;Hey, the next page you load, when you&#39;re finished, 
+let&#39;s call this done&quot;. Then we proceed to fill up the form with plain ol
+browser side Javascript with the page.evaluate() function, then submit the form
+programmatically. We skip the callback after the Javascript evaluation by doing
+an empty <code>return</code>. </p>
+<p>Then when the page is loaded, we run tests against the second page
+being returned, and it should be as expected. Yeahhh, Caesar salad! </p>
 
         
           <div class='highlight'><pre>describe <span class="string">"Headless browser test example: Submitting a form"</span>, -&gt;
   page = {}
 
   before (done) -&gt;
-    <span class="property">@timeout</span> <span class="number">10000</span></pre></div>
-        
-      
-        
-        <p>Emulate the process of submitting a form</p>
+    <span class="property">@timeout</span> <span class="number">10000</span>
 
-        
-          <div class='highlight'><pre>    ph.createPage (p) -&gt;
+    ph.createPage (p) -&gt;
       page = p
 
-      page.open serverPath, (status) -&gt;</pre></div>
-        
-      
-        
-        <p>After page submit, set process as done</p>
+      page.open serverPath, (status) -&gt;
 
-        
-          <div class='highlight'><pre>        page.set <span class="string">"onLoadFinished"</span>, (status) -&gt;
-          done()</pre></div>
-        
-      
-        
-        <p>Fill up the form and submit form</p>
+        page.set <span class="string">"onLoadFinished"</span>, (status) -&gt;
+          done()
 
-        
-          <div class='highlight'><pre>        page.evaluate -&gt;
+        page.evaluate -&gt;
 
           nameInput = document.getElementById(<span class="string">"input-name"</span>)
           nameInput.value = <span class="string">"Caesar"</span>
@@ -212,7 +212,7 @@ Start a browser session with a perfect input</p>
           document.form.submit()
 
         , -&gt;
-          <span class="keyword">return</span> <span class="comment"># Don't do anything here</span>
+          <span class="keyword">return</span>
  
   it <span class="string">"should say Hello Caesar at the next page"</span>, (done) -&gt;
     page.evaluate -&gt;
@@ -232,7 +232,8 @@ Start a browser session with a perfect input</p>
         
       
         
-        <p>Kill the server and PhantomJS instance after done</p>
+        <p>After we&#39;re done...</p>
+<p>Clear the database again, and stop the server from running. We&#39;re being clean, you know?</p>
 
         
           <div class='highlight'><pre>after (done) -&gt;

@@ -63,42 +63,46 @@
 
       
         
-        <p>IMPORTANT: Set environment as testing</p>
+        <p>Codes you should look at: 
+* <a href="https://github.com/conancat/node-test-examples/blob/master/src/test/api.test.coffee">helpers.test.coffee</a></p>
+<p>Related pages: 
+* <a href="http://conancat.github.com/node-test-examples/users.html">Function code</a></p>
+<h2>Setting up</h2>
+<p><em>IMPORTANT</em>: Set your environment as testing, and have environment specific 
+configurations. You DON&#39;T want to mess with your production database while
+you&#39;re working on testing! To see how we setup environment specific configurations, 
+check out our <a href="http://conancat.github.com/node-test-examples/conf.html">configuration file</a>.</p>
 
         
           <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
       
         
-        <p>Use Chai&#39;s expect for assertion</p>
+        <p>Here we&#39;re declaring some variables that we&#39;re gonna use. </p>
+<ul>
+<li>Use Chai&#39;s expect for assertion</li>
+<li>Get the test helper functions</li>
+<li>Get the Request package for API testing</li>
+<li>Setup some placeholder variables</li>
+</ul>
 
         
-          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span>
+
+testHelpers = require <span class="string">"./testHelpers"</span>
+
+request = require <span class="string">"request"</span>
+
+serverPath = <span class="string">""</span></pre></div>
         
       
         
-        <p>some test helper functions</p>
-
-        
-          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
-        
-      
-        
-        <p>use Request for API testing</p>
-
-        
-          <div class='highlight'><pre>request = require <span class="string">"request"</span></pre></div>
-        
-      
-        
-        <p>some variables</p>
-
-        
-          <div class='highlight'><pre>serverPath = <span class="string">""</span></pre></div>
-        
-      
-        
-        <p>Clear database and start server before testing</p>
+        <h2>Begin Test</h2>
+<p>Before we begin, let&#39;s clear the database to get rid of any old data, 
+and start the server in our test. Our startServer() function returns the 
+serverPath which we will use to make test API calls to later. </p>
+<p>To understand more about how our helpers are doing this, 
+check out the <a href="http://conancat.github.com/node-test-examples/testHelpers.html">testHelpers</a> oage. </p>
 
         
           <div class='highlight'><pre>before (done) -&gt;
@@ -112,14 +116,24 @@
         
       
         
-        <p>Start testing the /submit route</p>
+        <p>For this test, we&#39;re doing a call to our POST /submit route. We fired up our server, 
+and with the Request module we POST some requests to see if it&#39;s returning the desired results. 
+We check if it is returning a JSON result, and if the parts of the result are correct. </p>
+<p>In short, our process is: </p>
+<p>Perfect Input
+<em> Make a call to POST <code>http://localhost:&lt;port&gt;/submit&amp;name=&lt;name&gt;&amp;age=&lt;age&gt;&amp;food=&lt;food&gt;</code>
+</em> Should return <code>{&quot;meta&quot;:{&quot;status&quot;:200, &quot;msg&quot;:&quot;ok&quot;}}</code></p>
+<p>Error input
+<em> Make a call to <code>POST http://localhost:&lt;port&gt;/submit&amp;name=&lt;name&gt;&amp;age=&lt;wrong age&gt;&amp;food=&lt;food&gt;</code>
+</em> Should return <code>{&quot;meta&quot;: {&quot;status&quot;: 400, &quot;msg&quot;: &quot;Error message&quot;}}</code></p>
+<p>First let&#39;s create a suite...</p>
 
         
           <div class='highlight'><pre>describe <span class="string">"API test example: POST /submit"</span>, -&gt;</pre></div>
         
       
         
-        <p>Test with a perfect input</p>
+        <p>Test with a perfect input. Oh yeah!</p>
 
         
           <div class='highlight'><pre>  describe <span class="string">"Perfect input"</span>, -&gt;
@@ -154,7 +168,7 @@
         
       
         
-        <p>Test with a faulty input</p>
+        <p>Test with a faulty input. We&#39;re entering a wrong AGE! </p>
 
         
           <div class='highlight'><pre>  describe <span class="string">"Error input"</span>, -&gt;
@@ -169,7 +183,7 @@
         json: <span class="literal">true</span>
         form:
           name: <span class="string">"Caesar"</span>
-          age: <span class="string">"donkey"</span> <span class="comment"># AGE IS WRONG! </span>
+          age: <span class="string">"donkey"</span> 
           food: <span class="string">"sandwich"</span>
       , (err, res, body) -&gt;
         response = body
@@ -189,7 +203,8 @@
         
       
         
-        <p>Kill the server after done</p>
+        <p>After we&#39;re done...</p>
+<p>Clear the database again, and stop the server from running. We&#39;re being clean, you know?</p>
 
         
           <div class='highlight'><pre>after (done) -&gt;

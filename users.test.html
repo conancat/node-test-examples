@@ -66,44 +66,36 @@
         <p>Codes you should look at: 
 * <a href="https://github.com/conancat/node-test-examples/blob/master/src/test/users.test.coffee">users.test.coffee</a></p>
 <p>Related pages: 
-* <a href="http://node-test-examples.github.com/users.html">Function code</a></p>
+* <a href="http://conancat.github.com/node-test-examples/users.html">Function code</a></p>
 <h2>Setting up</h2>
 <p><em>IMPORTANT</em>: Set your environment as testing, and have environment specific 
 configurations. You DON&#39;T want to mess with your production database while
 you&#39;re working on testing! To see how we setup environment specific configurations, 
-check out our <a href="http://node-test-examples.github.com/conf.html">configuration file</a>.</p>
+check out our <a href="http://conancat.github.com/node-test-examples/conf.html">configuration file</a>.</p>
 
         
           <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
       
         
-        <p>Use Chai module for assertion. We&#39;ll be using the <a href="http://chaijs.com/guide/styles/"><code>expect</code></a> interface here.  </p>
+        <p>Here we&#39;re declaring some variables that we&#39;re gonna use. </p>
+<ul>
+<li><h1>Use Chai module for assertion. We&#39;ll be using the <a href="http://chaijs.com/guide/styles/"><code>expect</code></a> interface here.</h1>
+</li>
+<li>Get the test helper functions</li>
+<li>Get the main module that we&#39;ll be testing <code>users</code></li>
+<li>Require the database model so that we can make calls from our test to the database
+to make sure things are being properly created</li>
+</ul>
 
         
-          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span></pre></div>
-        
-      
-        
-        <p>Some test helper functions that we will use for setting up server, cleaning up database etc. </p>
+          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span>
 
-        
-          <div class='highlight'><pre>testHelpers = require <span class="string">"./testHelpers"</span></pre></div>
-        
-      
-        
-        <p>Require the main module that we will be using</p>
+testHelpers = require <span class="string">"./testHelpers"</span>
 
-        
-          <div class='highlight'><pre>users = require <span class="string">"../lib/users"</span></pre></div>
-        
-      
-        
-        <p>Require the database model so that we can make calls from our test to the database
-to make sure things are being properly created</p>
+users = require <span class="string">"../lib/users"</span>
 
-        
-          <div class='highlight'><pre>{User} = require <span class="string">"../lib/models"</span></pre></div>
+{User} = require <span class="string">"../lib/models"</span></pre></div>
         
       
         
@@ -219,7 +211,8 @@ our database entries. We don&#39;t like screwed up databases, do we? </p>
         
       
         
-        <p>The perfect scenario!</p>
+        <p>The perfect scenario! Let&#39;s make a call to the API, see if returns no 
+errors, and then we check the database if things are being saved correctly</p>
 
         
           <div class='highlight'><pre>  
@@ -230,28 +223,18 @@ our database entries. We don&#39;t like screwed up databases, do we? </p>
       age: <span class="number">10</span>
       food: <span class="string">"banana"</span>
 
-    createOrUpdateUser data, (err) -&gt;</pre></div>
-        
-      
-        
-        <p>Err should be null, yeah</p>
+    createOrUpdateUser data, (err) -&gt;
 
-        
-          <div class='highlight'><pre>      expect(err).to.be.<span class="literal">null</span></pre></div>
-        
-      
-        
-        <p>Lets make a call to the database to make sure that it is being saved in the 
-database.</p>
+      expect(err).to.be.<span class="literal">null</span>
 
-        
-          <div class='highlight'><pre>      User.findOne name: data.name, (err, result) -&gt;
+      User.findOne name: data.name, (err, result) -&gt;
         expect(result).to.be.an(<span class="string">"object"</span>)
         done()</pre></div>
         
       
         
-        <p>Test validations</p>
+        <p>Let&#39;s test the validation function if the function returns
+errors correctly if we pass in some bad inputs</p>
 
         
           <div class='highlight'><pre>  it <span class="string">"should throw error if missing name in input"</span>, (done) -&gt;
@@ -285,7 +268,7 @@ database.</p>
       
         
         <p>After we&#39;re done...</p>
-<p>Clear the database again. We&#39;re being clean, you know?</p>
+<p>Clear the database again, and stop the server from running. We&#39;re being clean, you know?</p>
 
         
           <div class='highlight'><pre>after (done) -&gt;
