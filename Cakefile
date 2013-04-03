@@ -13,14 +13,6 @@ watchJS = ->
 task 'watch', 'Watches all coffeescript files for changes', ->
   watchJS()
   
-task 'compile', 'Compiles all Coffeescript files into JS one shot', ->
- coffee = exec "coffee -c -o ./ src/"
- printOutput(coffee)
-  
-task 'test', 'Runs all tests', ->
-  vows = exec 'vows test/*.test.js'
-  printOutput(vows)
-  
 task 'docs', 'Create documentation using Docco', ->
   
   layout = "parallel"
