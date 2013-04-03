@@ -1,4 +1,4 @@
-# NodeJS Tests Example
+# NodeJS Test Examples
 
 This project is an example project to demonstrate how to write tests in NodeJS. We will look at how to: 
 
