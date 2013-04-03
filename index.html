@@ -4,24 +4,17 @@
 <head>
   <title>NodeJS Tests Example</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
 </head>
 <body>
-  <div id="container">
-    <div id="background"></div>
-    
-    <ul class="sections">
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
         
-        
-        
-        <li id="section-1">
-            <div class="annotation">
-              
-              <div class="pilwrap for-h1">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              <h1>NodeJS Tests Example</h1>
+          
+          <h1>NodeJS Tests Example</h1>
 <p>This project is an example project to demonstrate how to write tests in NodeJS. We will look at how to: </p>
 <ul>
 <li>Test regular NodeJS modules</li>
@@ -31,6 +24,37 @@
 </ul>
 <p>This project serves as an introduction to testing with NodeJS. If you&#39;re a beginner to NodeJS, new to writing tests, or just checking things out, have fun and let me know what you think! </p>
 <p>Check out the project&#39;s <a href="http://node-test-examples.github.com">documentation page</a>, and the <a href="https://github.com/conancat/node-test-examples">Github project</a> page!</p>
+<h2>Main Content</h2>
+<p>Four different parts of this exercise. You can look at the documentation, and comparing the actual code as well as the test cases! </p>
+<h3>Simple function testing</h3>
+<p>This is a straightforward one. We&#39;ll just take a simple function and test the hell outta it. Hey, you always want to make sure the code you wrote works!</p>
+<ul>
+<li><a href="http://conancat.github.com/node-test-examples/helpers.html">Function code</a></li>
+<li><a href="http://conancat.github.com/node-test-examples/helpers.test.html">Test code</a></li>
+</ul>
+<h3>Database testing</h3>
+<p>We have two simple functions that interact with the database -- <code>get</code> and <code>createOrUpdate</code>. Let&#39;s setup and create mocks, run tests to make sure things are working properly, and nicely clean things up after we&#39;re done.</p>
+<ul>
+<li><a href="http://conancat.github.com/node-test-examples/users.html">Function code</a></li>
+<li><a href="http://conancat.github.com/node-test-examples/users.test.html">Test code</a></li>
+</ul>
+<h3>API Testing</h3>
+<p>So we have REST api and we want to make sure it works. Let&#39;s start a server, make calls to it and check if it returns the desired results!</p>
+<ul>
+<li><a href="http://conancat.github.com/node-test-examples/submit.html">Function code</a></li>
+<li><a href="http://conancat.github.com/node-test-examples/api.test.html">Test code</a></li>
+</ul>
+<h3>Headless Browser Testing</h3>
+<p>Sometimes it&#39;s too slow to need to open every single page on your website every single time you want to deploy a site, just to see if everything is working. Let&#39;s start a server, get a headless zombie ghost phantom tester thing to go through the site and see if things are working! </p>
+<ul>
+<li><a href="http://conancat.github.com/node-test-examples/browser.test.html">Test code</a></li>
+</ul>
+<p>Remember to start the server yourself at least once to go through and see what&#39;s happening on the site, before we try to emulate things with our little phantom!</p>
+<h3>Little extras</h3>
+<ul>
+<li>Writing a <a href="http://conancat.github.com/node-test.examples/conf.html">configuration file</a></li>
+<li>Some <a href="http://conancat.github.com/node-test.examples/testHelpers.html">test helpers</a></li>
+</ul>
 <h2>Tools that we&#39;ll need</h2>
 <ul>
 <li><a href="http://visionmedia.github.com/mocha/">Mocha</a>, our testing framework of choice</li>
@@ -56,40 +80,25 @@ npm install</p>
 <p>mocha</p>
 <p>Then the tests should run. Yay! If you want a more verbose version of the test results, you can type this instead: </p>
 <p>mocha -R spec</p>
-<h2>Documentation</h2>
-<p>There are five different parts of this exercise. You can look at the documentation, and comparing the actual code as well as the test cases! </p>
-<h3>Simple function testing</h3>
-<p>This is a straightforward one. We&#39;ll just take a simple function and test the hell outta it. Hey, you always want to make sure the code you wrote works!</p>
+<h2>Some other commands</h2>
+<p>If you want to fork this repo, feel free to do so! Here are some Cake tasks that you can use:</p>
 <ul>
-<li><a href="http://conancat.github.com/node-test-examples/helpers.html">Function code</a></li>
-<li><a href="http://conancat.github.com/node-test-examples/helpers.test.html">Test code</a></li>
+<li>cake watch -- Compiles all CoffeeScript files</li>
+<li>cake docs -- Generates the documents under the <code>gh-pages</code> branch</li>
 </ul>
-<h3>Database testing</h3>
-<p>We have two simple functions that interact with the database -- <code>get</code> and <code>createOrUpdate</code>. Let&#39;s setup and create mocks, run tests to make sure things are working properly, and nicely clean things up after we&#39;re done.</p>
-<ul>
-<li><a href="http://conancat.github.com/node-test-examples/users.html">Function code</a></li>
-<li><a href="http://conancat.github.com/node-test-examples/users.test.html">Test code</a></li>
-</ul>
-<h3>API Testing</h3>
-<p>So we have REST api and we want to make sure it works. Let&#39;s start a server, make calls to it and check if it returns the desired results!</p>
-<ul>
-<li><a href="http://conancat.github.com/node-test-examples/submit.html">Function code</a></li>
-<li><a href="http://conancat.github.com/node-test-examples/api.test.html">Test code</a></li>
-</ul>
-<h3>Headless Browser Testing</h3>
-<p>Sometimes it&#39;s too slow to need to open every single page on your website every single time you want to deploy a site, just to see if everything is working. Let&#39;s start a server, get a headless zombie ghost phantom tester thing to go through the site and see if things are working! </p>
-<ul>
-<li><a href="http://conancat.github.com/node-test-examples/browser.test.html">Test code</a></li>
-</ul>
-<p>Remember to start the server yourself at least once to go through and see what&#39;s happening on the site, before we try to emulate things with our little phantom!</p>
+<p>You can type <code>cake</code> in the root folder to see more details.</p>
 <h2>Contact Me</h2>
 <p>If you have any questions, you can also find me on <a href="http://twitter.com/conancat">Twitter</a> or email me at conancat@gmail.com. I won&#39;t bite, I promise!</p>
 
-            </div>
-            
-        </li>
+          
         
-    </ul>
+
+        
+      </div>
+
+      
+      <div class="fleur">h</div>
+    </div>
   </div>
 </body>
 </html>
