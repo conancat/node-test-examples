@@ -4,66 +4,66 @@
 <head>
   <title>api.test.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="page">
-
-      <div class="header">
-        
-          <h1>api.test.coffee</h1>
-        
-
-        
-          <div class="toc">
-            <h3>Table of Contents</h3>
-            <ol>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
               
-                
-                <li>
-                  <a class="source" href="api.test.html">
-                    api.test.coffee
-                  </a>
-                </li>
+              <a class="source" href="api.test.html">
+                api.test.coffee
+              </a>
+            
               
-                
-                <li>
-                  <a class="source" href="browser.test.html">
-                    browser.test.coffee
-                  </a>
-                </li>
+              <a class="source" href="browser.test.html">
+                browser.test.coffee
+              </a>
+            
               
-                
-                <li>
-                  <a class="source" href="helpers.test.html">
-                    helpers.test.coffee
-                  </a>
-                </li>
+              <a class="source" href="helpers.test.html">
+                helpers.test.coffee
+              </a>
+            
               
-                
-                <li>
-                  <a class="source" href="testHelpers.html">
-                    testHelpers.coffee
-                  </a>
-                </li>
+              <a class="source" href="testHelpers.html">
+                testHelpers.coffee
+              </a>
+            
               
-                
-                <li>
-                  <a class="source" href="users.test.html">
-                    users.test.coffee
-                  </a>
-                </li>
-              
-            </ol>
+              <a class="source" href="users.test.html">
+                users.test.coffee
+              </a>
+            
           </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
         
-      </div>
-
-      
+          <li id="title">
+              <div class="annotation">
+                  <h1>api.test.coffee</h1>
+              </div>
+          </li>
         
-        <p>Codes you should look at: </p>
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Codes you should look at: </p>
 <ul>
 <li><a href="https://github.com/conancat/node-test-examples/blob/master/src/test/api.test.coffee">helpers.test.coffee</a></li>
 </ul>
@@ -77,12 +77,20 @@ configurations. You DON&#39;T want to mess with your production database while
 you&#39;re working on testing! To see how we setup environment specific configurations, 
 check out our <a href="http://conancat.github.com/node-test-examples/conf.html">configuration file</a>.</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div></div>
+            
+        </li>
         
-          <div class='highlight'><pre>process.env.NODE_ENV = <span class="string">"testing"</span></pre></div>
         
-      
-        
-        <p>Here we&#39;re declaring some variables that we&#39;re gonna use. </p>
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Here we&#39;re declaring some variables that we&#39;re gonna use. </p>
 <ul>
 <li>Use Chai&#39;s expect for assertion</li>
 <li>Get the test helper functions</li>
@@ -90,37 +98,53 @@ check out our <a href="http://conancat.github.com/node-test-examples/conf.html">
 <li>Setup some placeholder variables</li>
 </ul>
 
-        
-          <div class='highlight'><pre>{expect} = require <span class="string">"chai"</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>{expect} = require <span class="string">"chai"</span>
 
 testHelpers = require <span class="string">"./testHelpers"</span>
 
 request = require <span class="string">"request"</span>
 
-serverPath = <span class="string">""</span></pre></div>
+serverPath = <span class="string">""</span></pre></div></div>
+            
+        </li>
         
-      
         
-        <h2>Begin Test</h2>
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2>Begin Test</h2>
 <p>Before we begin, let&#39;s clear the database to get rid of any old data, 
 and start the server in our test. Our startServer() function returns the 
 serverPath which we will use to make test API calls to later. </p>
 <p>To understand more about how our helpers are doing this, 
 check out the <a href="http://conancat.github.com/node-test-examples/testHelpers.html">testHelpers</a> oage. </p>
 
-        
-          <div class='highlight'><pre>before (done) -&gt;
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>before (done) -&gt;
   <span class="property">@timeout</span> <span class="number">10000</span>
 
   testHelpers.clearDatabase -&gt;
     testHelpers.startServer (err, result) -&gt;
       <span class="keyword">if</span> err <span class="keyword">then</span> <span class="keyword">return</span> done err
       serverPath = result
-      done()</pre></div>
+      done()</pre></div></div>
+            
+        </li>
         
-      
         
-        <p>For this test, we&#39;re doing a call to our POST /submit route. We fired up our server, 
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>For this test, we&#39;re doing a call to our POST /submit route. We fired up our server, 
 and with the Request module we POST some requests to see if it&#39;s returning the desired results. 
 We check if it is returning a JSON result, and if the parts of the result are correct. </p>
 <p>In short, our process is: </p>
@@ -132,15 +156,24 @@ We check if it is returning a JSON result, and if the parts of the result are co
 </em> Should return <code>{&quot;meta&quot;: {&quot;status&quot;: 400, &quot;msg&quot;: &quot;Error message&quot;}}</code></p>
 <p>First let&#39;s create a suite...</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>describe <span class="string">"API test example: POST /submit"</span>, -&gt;</pre></div></div>
+            
+        </li>
         
-          <div class='highlight'><pre>describe <span class="string">"API test example: POST /submit"</span>, -&gt;</pre></div>
         
-      
-        
-        <p>Test with a perfect input. Oh yeah!</p>
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Test with a perfect input. Oh yeah!</p>
 
-        
-          <div class='highlight'><pre>  describe <span class="string">"Perfect input"</span>, -&gt;
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe <span class="string">"Perfect input"</span>, -&gt;
     response = {}
 
     before (done) -&gt;
@@ -168,14 +201,22 @@ We check if it is returning a JSON result, and if the parts of the result are co
       expect(response.meta.status).to.be.equal(<span class="number">200</span>)
 
     it <span class="string">"should return 'ok' message"</span>, -&gt;
-      expect(response.meta.msg).to.be.equal(<span class="string">"ok"</span>)</pre></div>
+      expect(response.meta.msg).to.be.equal(<span class="string">"ok"</span>)</pre></div></div>
+            
+        </li>
         
-      
         
-        <p>Test with a faulty input. We&#39;re entering a wrong AGE! </p>
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Test with a faulty input. We&#39;re entering a wrong AGE! </p>
 
-        
-          <div class='highlight'><pre>  describe <span class="string">"Error input"</span>, -&gt;
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe <span class="string">"Error input"</span>, -&gt;
     response = {}
 
     before (done) -&gt;
@@ -203,22 +244,30 @@ We check if it is returning a JSON result, and if the parts of the result are co
       expect(response.meta.status).to.be.equal(<span class="number">400</span>)
 
     it <span class="string">"should return error message saying 'Age must be a number'"</span>, -&gt;
-      expect(response.meta.msg).to.be.equal(<span class="string">"Age must be a number"</span>)</pre></div>
+      expect(response.meta.msg).to.be.equal(<span class="string">"Age must be a number"</span>)</pre></div></div>
+            
+        </li>
         
-      
         
-        <p>After we&#39;re done...</p>
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>After we&#39;re done...</p>
 <p>Clear the database again, and stop the server from running. We&#39;re being clean, you know?</p>
 
-        
-          <div class='highlight'><pre>after (done) -&gt;
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>after (done) -&gt;
   testHelpers.clearDatabase -&gt;
     testHelpers.stopServer serverPath, -&gt;
-      done()</pre></div>
+      done()</pre></div></div>
+            
+        </li>
         
-      
-      <div class="fleur">h</div>
-    </div>
+    </ul>
   </div>
 </body>
 </html>
