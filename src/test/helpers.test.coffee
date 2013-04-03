@@ -2,21 +2,24 @@
 # * [helpers.test.coffee](https://github.com/conancat/node-test-examples/blob/master/src/test/helpers.test.coffee)
 
 # Related pages: 
-# * [Function code](http://node-test-examples.github.com/helpers.html)
+# * [Function code](http://conancat.github.com/node-test-examples/helpers.html)
 
 # ## Setting up
 
 # *IMPORTANT*: Set your environment as testing, and have environment specific 
 # configurations. You DON'T want to mess with your production database while
 # you're working on testing! To see how we setup environment specific configurations, 
-# check out our [configuration file](http://node-test-examples.github.com/conf.html).
+# check out our [configuration file](http://conancat.github.com/node-test-examples/conf.html).
 
 process.env.NODE_ENV = "testing"
 
-# Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
+# Here we're declaring some variables that we're gonna use. 
+# 
+# * Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here. 
+# * Require the main module that we'll be using.
+ 
 {expect} = require "chai"
 
-# Require the module
 helpers = require "../lib/helpers"
 
 

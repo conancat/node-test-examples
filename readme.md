@@ -61,28 +61,28 @@ There are five different parts of this exercise. You can look at the documentati
 
 This is a straightforward one. We'll just take a simple function and test the hell outta it. Hey, you always want to make sure the code you wrote works!
 
-* [Function code](http://node-test-examples.github.com/helpers.html)
-* [Test code](http://node-test-examples.github.com/helpers.test.html)
+* [Function code](http://conancat.github.com/node-test-examples/helpers.html)
+* [Test code](http://conancat.github.com/node-test-examples/helpers.test.html)
 
 ### Database testing
 
 We have two simple functions that interact with the database -- `get` and `createOrUpdate`. Let's setup and create mocks, run tests to make sure things are working properly, and nicely clean things up after we're done.
 
-* [Function code](http://node-test-examples.github.com/users.html)
-* [Test code](http://node-test-examples.github.com/users.test.html)
+* [Function code](http://conancat.github.com/node-test-examples/users.html)
+* [Test code](http://conancat.github.com/node-test-examples/users.test.html)
 
 ### API Testing
 
 So we have REST api and we want to make sure it works. Let's start a server, make calls to it and check if it returns the desired results!
 
-* [Function code](http://node-test-examples.github.com/submit.html)
-* [Test code](http://node-test-examples.github.com/api.test.html)
+* [Function code](http://conancat.github.com/node-test-examples/submit.html)
+* [Test code](http://conancat.github.com/node-test-examples/api.test.html)
 
 ### Headless Browser Testing
 
 Sometimes it's too slow to need to open every single page on your website every single time you want to deploy a site, just to see if everything is working. Let's start a server, get a headless zombie ghost phantom tester thing to go through the site and see if things are working! 
 
-* [Test code](http://node-test-examples.github.com/browser.test.html)
+* [Test code](http://conancat.github.com/node-test-examples/browser.test.html)
 
 Remember to start the server yourself at least once to go through and see what's happening on the site, before we try to emulate things with our little phantom!
 
