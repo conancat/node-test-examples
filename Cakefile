@@ -24,7 +24,7 @@ task 'docs', 'Create documentation using Docco', ->
     "docco -l #{layout} -o #{output} readme.md"
     "docco -l #{layout} -o #{output} src/*.coffee"
     "docco -l #{layout} -o #{output} src/lib/*.coffee"
-    "docco -l #{layout} -o #{output} src/lib/routes/*.coffee"
+    "docco -l #{layout} -o #{output} src/routes/*.coffee"
     "docco -l #{layout} -o #{output} src/test/*.coffee"
     "mv readme.html index.html"
     "git add ."
