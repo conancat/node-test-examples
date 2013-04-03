@@ -2,7 +2,7 @@
 # * [users.coffee](https://github.com/conancat/node-test-examples/blob/master/src/lib/users.coffee)
 
 # Related pages: 
-# * [Test code](http://node-test-examples.github.com/users.test.html)
+# * [Test code](http://conancat.github.com/node-test-examples/users.test.html)
 
 
 # ## Setup

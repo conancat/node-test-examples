@@ -2,28 +2,31 @@
 # * [users.test.coffee](https://github.com/conancat/node-test-examples/blob/master/src/test/users.test.coffee)
 
 # Related pages: 
-# * [Function code](http://node-test-examples.github.com/users.html)
+# * [Function code](http://conancat.github.com/node-test-examples/users.html)
 
 # ## Setting up
 
 # *IMPORTANT*: Set your environment as testing, and have environment specific 
 # configurations. You DON'T want to mess with your production database while
 # you're working on testing! To see how we setup environment specific configurations, 
-# check out our [configuration file](http://node-test-examples.github.com/conf.html).
+# check out our [configuration file](http://conancat.github.com/node-test-examples/conf.html).
 
 process.env.NODE_ENV = "testing"
 
-# Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
+# Here we're declaring some variables that we're gonna use. 
+# 
+# * # Use Chai module for assertion. We'll be using the [`expect`](http://chaijs.com/guide/styles/) interface here.  
+# * Get the test helper functions
+# * Get the main module that we'll be testing `users`
+# * Require the database model so that we can make calls from our test to the database
+# to make sure things are being properly created
+
 {expect} = require "chai"
 
-# Some test helper functions that we will use for setting up server, cleaning up database etc. 
 testHelpers = require "./testHelpers"
 
-# Require the main module that we will be using
 users = require "../lib/users"
 
-# Require the database model so that we can make calls from our test to the database
-# to make sure things are being properly created
 {User} = require "../lib/models"
 
 # ## Begin Test
@@ -45,7 +48,6 @@ before (done) ->
   testHelpers.clearDatabase done
 
 # Let's begin the party!
-# 
 
 # ### getUser()
 # First, we need to populate 
@@ -124,7 +126,8 @@ describe "Database test example: Creating or updating data in db", ->
 
   {createOrUpdateUser} = users
 
-  # The perfect scenario!
+  # The perfect scenario! Let's make a call to the API, see if returns no 
+  # errors, and then we check the database if things are being saved correctly
   
   it "should create user successfully given a perfect input", (done) ->
 
@@ -135,17 +138,15 @@ describe "Database test example: Creating or updating data in db", ->
 
     createOrUpdateUser data, (err) ->
 
-      # Err should be null, yeah
       expect(err).to.be.null
-
-      # Lets make a call to the database to make sure that it is being saved in the 
-      # database.
 
       User.findOne name: data.name, (err, result) ->
         expect(result).to.be.an("object")
         done()
 
-  # Test validations
+  # Let's test the validation function if the function returns
+  # errors correctly if we pass in some bad inputs
+
   it "should throw error if missing name in input", (done) ->
     data = 
       age: 10
@@ -177,7 +178,7 @@ describe "Database test example: Creating or updating data in db", ->
 
 # After we're done...
 #
-# Clear the database again. We're being clean, you know?
+# Clear the database again, and stop the server from running. We're being clean, you know?
 
 after (done) ->
   testHelpers.clearDatabase done
