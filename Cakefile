@@ -27,6 +27,7 @@ task 'docs', 'Create documentation using Docco', ->
     "docco -l #{layout} -o #{output} src/lib/routes/*.coffee"
     "docco -l #{layout} -o #{output} src/test/*.coffee"
     "mv readme.html index.html"
+    "git add ."
     "git commit -am 'updated docs'"
     "git checkout master"
   ].join("&&")
