@@ -23,7 +23,7 @@ task 'test', 'Runs all tests', ->
   
 task 'docs', 'Create documentation using Docco', ->
   
-  layout = "linear"
+  layout = "parallel"
   output = "./"
 
   docco = exec [
