@@ -9,7 +9,7 @@ This project is an example project to demonstrate how to write tests in NodeJS. 
 
 This project serves as an introduction to testing with NodeJS. If you're a beginner to NodeJS, new to writing tests, or just checking things out, have fun and let me know what you think! 
 
-Check out the project's [documentation page](http://node-test-examples.github.com), and the [Github project](https://github.com/conancat/node-test-examples) page!
+Check out the project's [documentation page](http://conancat.github.io/node-test-examples/), and the [Github project](https://github.com/conancat/node-test-examples) page!
 
 ## Main Content
 
