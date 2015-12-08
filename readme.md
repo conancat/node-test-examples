@@ -46,8 +46,8 @@ Remember to start the server yourself at least once to go through and see what's
 
 ### Little extras
 
-* Writing a [configuration file](http://conancat.github.com/node-test.examples/conf.html)
-* Some [test helpers](http://conancat.github.com/node-test.examples/testHelpers.html)
+* Writing a [configuration file](http://conancat.github.com/node-test-examples/conf.html)
+* Some [test helpers](http://conancat.github.com/node-test-examples/testHelpers.html)
 
 
 ## Tools that we'll need
