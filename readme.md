@@ -52,7 +52,7 @@ Remember to start the server yourself at least once to go through and see what's
 
 ## Tools that we'll need
 
-* [Mocha](http://visionmedia.github.com/mocha/), our testing framework of choice
+* [Mocha](http://mochajs.org/), our testing framework of choice
 * [Chai](http://chaijs.com/) as our assertion library
 * [PhantomJS](http://phantomjs.org/) as our ghostly, headless browser testing tool
 
